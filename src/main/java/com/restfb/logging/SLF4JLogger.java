@@ -39,54 +39,54 @@ import org.slf4j.LoggerFactory;
  */
 public class SLF4JLogger extends RestFBLogger {
 
-  private final Logger logger;
+    private final Logger logger;
 
-  public SLF4JLogger(String logName) {
-    logger = LoggerFactory.getLogger(logName);
-  }
+    public SLF4JLogger(String logName) {
+        logger = LoggerFactory.getLogger(logName);
+    }
 
-  @Override
-  public void trace(String msg, Object... args) {
-    logger.trace(msg, args);
-  }
+    @Override
+    public void trace(String msg, Object... args) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void debug(String msg, Object... args) {
-    logger.debug(msg, args);
-  }
+    @Override
+    public void debug(String msg, Object... args) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void info(String msg, Object... args) {
-    logger.info(msg, args);
-  }
+    @Override
+    public void info(String msg, Object... args) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void warn(String msg, Object... args) {
-    logger.warn(msg, args);
-  }
+    @Override
+    public void warn(String msg, Object... args) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void error(String msg, Object... args) {
-    logger.error(msg, args);
-  }
+    @Override
+    public void error(String msg, Object... args) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void fatal(String msg, Object... args) {
-    logger.error(msg, args);
-  }
+    @Override
+    public void fatal(String msg, Object... args) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public boolean isDebugEnabled() {
-    return logger.isDebugEnabled();
-  }
+    @Override
+    public boolean isDebugEnabled() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public boolean isInfoEnabled() {
-    return logger.isInfoEnabled();
-  }
+    @Override
+    public boolean isInfoEnabled() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public boolean isTraceEnabled() {
-    return logger.isTraceEnabled();
-  }
+    @Override
+    public boolean isTraceEnabled() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

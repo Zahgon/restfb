@@ -36,40 +36,38 @@ import java.util.TimeZone;
  * <p>
  * Attention: to prevent a possible memory leak while using this strategy you have to clean up the inner ThreadLocal
  * with the {@code clearThreadLocal} method.
- * 
+ *
  * @since 1.7.0
  */
 public class CachedDateFormatStrategy implements DateFormatStrategy {
 
-  @Override
-  public DateFormat formatFor(String format) {
-    return SimpleDateFormatHolder.formatFor(format);
-  }
-
-  public void clearThreadLocal() {
-    SimpleDateFormatHolder.clearThreadLocal();
-  }
-
-  private static final class SimpleDateFormatHolder {
-
-    private static final ThreadLocal<SoftReference<Map<String, SimpleDateFormat>>> THREADLOCAL_FORMATTER_MAP =
-        ThreadLocal.withInitial(() -> new SoftReference<>(new HashMap<>()));
-
-    private static SimpleDateFormat formatFor(String pattern) {
-      SoftReference<Map<String, SimpleDateFormat>> ref = THREADLOCAL_FORMATTER_MAP.get();
-      Map<String, SimpleDateFormat> formatterMap = ref.get();
-      return formatterMap.computeIfAbsent(pattern, SimpleDateFormatHolder::createSDF);
+    @Override
+    public DateFormat formatFor(String format) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    private static SimpleDateFormat createSDF(String pattern) {
-      SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-      sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-      return sdf;
+    public void clearThreadLocal() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    private static void clearThreadLocal() {
-      THREADLOCAL_FORMATTER_MAP.remove();
-    }
-  }
+    private static final class SimpleDateFormatHolder {
 
+        private static final ThreadLocal<SoftReference<Map<String, SimpleDateFormat>>> THREADLOCAL_FORMATTER_MAP = ThreadLocal.withInitial(() -> new SoftReference<>(new HashMap<>()));
+
+        private static SimpleDateFormat formatFor(String pattern) {
+            SoftReference<Map<String, SimpleDateFormat>> ref = THREADLOCAL_FORMATTER_MAP.get();
+            Map<String, SimpleDateFormat> formatterMap = ref.get();
+            return formatterMap.computeIfAbsent(pattern, SimpleDateFormatHolder::createSDF);
+        }
+
+        private static SimpleDateFormat createSDF(String pattern) {
+            SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            return sdf;
+        }
+
+        private static void clearThreadLocal() {
+            THREADLOCAL_FORMATTER_MAP.remove();
+        }
+    }
 }

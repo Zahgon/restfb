@@ -1,24 +1,26 @@
-/*******************************************************************************
- * Copyright (c) 2015 EclipseSource.
+/**
+ * ****************************************************************************
+ *  Copyright (c) 2015 EclipseSource.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ *  The above copyright notice and this permission notice shall be included in all
+ *  copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- ******************************************************************************/
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *  SOFTWARE.
+ * ****************************************************************************
+ */
 package com.restfb.json;
 
 import java.io.IOException;
@@ -31,68 +33,43 @@ import java.io.Writer;
  */
 class WritingBuffer extends Writer {
 
-  private final Writer writer;
-  private final char[] buffer;
-  private int fill = 0;
+    private final Writer writer;
 
-  WritingBuffer(Writer writer) {
-    this(writer, 16);
-  }
+    private final char[] buffer;
 
-  WritingBuffer(Writer writer, int bufferSize) {
-    this.writer = writer;
-    buffer = new char[bufferSize];
-  }
+    private int fill = 0;
 
-  @Override
-  public void write(int c) throws IOException {
-    if (fill > buffer.length - 1) {
-      flush();
+    WritingBuffer(Writer writer) {
+        this(writer, 16);
     }
-    buffer[fill++] = (char) c;
-  }
 
-  @Override
-  public void write(char[] cbuf, int off, int len) throws IOException {
-    if (fill > buffer.length - len) {
-      flush();
-      if (len > buffer.length) {
-        writer.write(cbuf, off, len);
-        return;
-      }
+    WritingBuffer(Writer writer, int bufferSize) {
+        this.writer = writer;
+        buffer = new char[bufferSize];
     }
-    System.arraycopy(cbuf, off, buffer, fill, len);
-    fill += len;
-  }
 
-  @Override
-  public void write(String str, int off, int len) throws IOException {
-    if (fill > buffer.length - len) {
-      flush();
-      if (len > buffer.length) {
-        writer.write(str, off, len);
-        return;
-      }
+    @Override
+    public void write(int c) throws IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    str.getChars(off, off + len, buffer, fill);
-    fill += len;
-  }
 
-  /**
-   * Flushes the internal buffer but does not flush the wrapped writer.
-   */
-  @Override
-  public void flush() throws IOException {
-    writer.write(buffer, 0, fill);
-    fill = 0;
-  }
+    @Override
+    public void write(char[] cbuf, int off, int len) throws IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  /**
-   * Does not close or flush the wrapped writer.
-   */
-  @Override
-  public void close() throws IOException {
-    // nothing to do here
-  }
+    @Override
+    public void write(String str, int off, int len) throws IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
+    @Override
+    public void flush() throws IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public void close() throws IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

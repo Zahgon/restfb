@@ -31,45 +31,33 @@ import com.restfb.json.JsonObject;
  */
 public abstract class FacebookErrorMessageException extends FacebookException {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  private JsonObject rawErrorJson;
+    private JsonObject rawErrorJson;
 
-  private DebugHeaderInfo debugHeaderInfo;
+    private DebugHeaderInfo debugHeaderInfo;
 
-  protected FacebookErrorMessageException(String message) {
-    super(message);
-  }
+    protected FacebookErrorMessageException(String message) {
+        super(message);
+    }
 
-  protected FacebookErrorMessageException(String message, Throwable cause) {
-    super(message, cause);
-  }
+    protected FacebookErrorMessageException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-  /**
-   * return the raw error as JSON, may be <code>null</code>
-   * 
-   * @return raw error
-   */
-  public JsonObject getRawErrorJson() {
-    return rawErrorJson;
-  }
+    public JsonObject getRawErrorJson() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  protected void setRawErrorJson(JsonObject rawError) {
-    rawErrorJson = rawError;
-  }
+    protected void setRawErrorJson(JsonObject rawError) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  /**
-   * returns the debug header info that is connected with this Facebook call.
-   * <p>
-   * you can get information like trace ids, limits and more.
-   * 
-   * @return the DebugHeaderInfo or null
-   */
-  public DebugHeaderInfo getDebugHeaderInfo() {
-    return debugHeaderInfo;
-  }
+    public DebugHeaderInfo getDebugHeaderInfo() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  public void setDebugHeaderInfo(DebugHeaderInfo debugHeaderInfo) {
-    this.debugHeaderInfo = debugHeaderInfo;
-  }
+    public void setDebugHeaderInfo(DebugHeaderInfo debugHeaderInfo) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

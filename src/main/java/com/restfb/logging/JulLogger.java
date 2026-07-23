@@ -41,66 +41,66 @@ import java.util.logging.Logger;
  */
 public class JulLogger extends RestFBLogger {
 
-  private final Logger logger;
+    private final Logger logger;
 
-  public JulLogger(String logName) {
-    logger = Logger.getLogger(logName);
-  }
-
-  @Override
-  public void trace(String msg, Object... args) {
-    createLogMessage(Level.FINER, msg, args);
-  }
-
-  @Override
-  public void debug(String msg, Object... args) {
-    createLogMessage(Level.FINE, msg, args);
-  }
-
-  @Override
-  public void info(String msg, Object... args) {
-    createLogMessage(Level.INFO, msg, args);
-  }
-
-  @Override
-  public void warn(String msg, Object... args) {
-    createLogMessage(Level.WARNING, msg, args);
-  }
-
-  @Override
-  public void error(String msg, Object... args) {
-    createLogMessage(Level.SEVERE, msg, args);
-  }
-
-  @Override
-  public void fatal(String msg, Object... args) {
-    createLogMessage(Level.SEVERE, msg, args);
-  }
-
-  @Override
-  public boolean isDebugEnabled() {
-    return logger.isLoggable(Level.FINE);
-  }
-
-  @Override
-  public boolean isInfoEnabled() {
-    return logger.isLoggable(java.util.logging.Level.INFO);
-  }
-
-  @Override
-  public boolean isTraceEnabled() {
-    return logger.isLoggable(Level.FINER);
-  }
-
-  private void createLogMessage(Level level, String msg, Object[] args) {
-    if (logger.isLoggable(level)) {
-      JulMessage.MessageTuple tuple = JulMessage.convertMessageString(msg, args);
-      LogRecord logRecord = new LogRecord(level, tuple.getMessage());
-      Optional.ofNullable(tuple.getThrowable()).ifPresent(logRecord::setThrown);
-      logRecord.setSourceClassName(null);
-      logRecord.setSourceMethodName(null);
-      logRecord.setLoggerName(logger.getName());
-      logger.log(logRecord);
+    public JulLogger(String logName) {
+        logger = Logger.getLogger(logName);
     }
-  }
+
+    @Override
+    public void trace(String msg, Object... args) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public void debug(String msg, Object... args) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public void info(String msg, Object... args) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public void warn(String msg, Object... args) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public void error(String msg, Object... args) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public void fatal(String msg, Object... args) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public boolean isDebugEnabled() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public boolean isInfoEnabled() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public boolean isTraceEnabled() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    private void createLogMessage(Level level, String msg, Object[] args) {
+        if (logger.isLoggable(level)) {
+            JulMessage.MessageTuple tuple = JulMessage.convertMessageString(msg, args);
+            LogRecord logRecord = new LogRecord(level, tuple.getMessage());
+            Optional.ofNullable(tuple.getThrowable()).ifPresent(logRecord::setThrown);
+            logRecord.setSourceClassName(null);
+            logRecord.setSourceMethodName(null);
+            logRecord.setLoggerName(logger.getName());
+            logger.log(logRecord);
+        }
+    }
 }

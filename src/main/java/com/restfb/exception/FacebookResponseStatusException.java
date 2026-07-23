@@ -22,7 +22,6 @@
 package com.restfb.exception;
 
 import static java.lang.String.format;
-
 import com.restfb.json.JsonObject;
 
 /**
@@ -32,52 +31,43 @@ import com.restfb.json.JsonObject;
  * API calls.
  * <p>
  * Example: <code>{"error_code": 2, "error_msg": "The service is not available at this time.", ...}</code>.
- * 
+ *
  * @author <a href="http://restfb.com">Mark Allen</a>
  */
 public class FacebookResponseStatusException extends FacebookErrorMessageException {
-  /**
-   * The Facebook API error code.
-   */
-  private final Integer errorCode;
 
-  /**
-   * The Facebook API error message.
-   */
-  private final String errorMessage;
+    /**
+     * The Facebook API error code.
+     */
+    private final Integer errorCode;
 
-  private static final long serialVersionUID = 1L;
+    /**
+     * The Facebook API error message.
+     */
+    private final String errorMessage;
 
-  /**
-   * Creates an exception with the given message and error code.
-   * 
-   * @param errorCode
-   *          Value of the Facebook response attribute {@code error_code}.
-   * @param errorMessage
-   *          Value of the Facebook response attribute {@code error_msg}.
-   */
-  public FacebookResponseStatusException(Integer errorCode, String errorMessage, JsonObject rawError) {
-    super(format("Received Facebook error response (code %d): %s", errorCode, errorMessage));
-    this.errorCode = errorCode;
-    this.errorMessage = errorMessage;
-    setRawErrorJson(rawError);
-  }
+    private static final long serialVersionUID = 1L;
 
-  /**
-   * Gets the Facebook API error code.
-   * 
-   * @return The Facebook API error code.
-   */
-  public Integer getErrorCode() {
-    return errorCode;
-  }
+    /**
+     * Creates an exception with the given message and error code.
+     *
+     * @param errorCode
+     *          Value of the Facebook response attribute {@code error_code}.
+     * @param errorMessage
+     *          Value of the Facebook response attribute {@code error_msg}.
+     */
+    public FacebookResponseStatusException(Integer errorCode, String errorMessage, JsonObject rawError) {
+        super(format("Received Facebook error response (code %d): %s", errorCode, errorMessage));
+        this.errorCode = errorCode;
+        this.errorMessage = errorMessage;
+        setRawErrorJson(rawError);
+    }
 
-  /**
-   * Gets the Facebook API error message.
-   * 
-   * @return The Facebook API error message.
-   */
-  public String getErrorMessage() {
-    return errorMessage;
-  }
+    public Integer getErrorCode() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public String getErrorMessage() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

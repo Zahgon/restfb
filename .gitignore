@@ -29,3 +29,8 @@ nb-configuration.xml
 pom.xml.asc
 release.sh
 .DS_Store
+
+.aider*
+logs/
+.commit0_scripts/
+.github/workflows/

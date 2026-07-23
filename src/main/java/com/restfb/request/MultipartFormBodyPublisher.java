@@ -28,7 +28,6 @@ import java.io.OutputStream;
 import java.net.http.HttpRequest.BodyPublisher;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-
 import com.restfb.BinaryAttachment;
 import com.restfb.util.StringUtils;
 
@@ -37,65 +36,53 @@ import com.restfb.util.StringUtils;
  */
 public class MultipartFormBodyPublisher implements Closeable {
 
-  private static final byte[] MULTIPART_CARRIAGE_RETURN_AND_NEWLINE = "\r\n".getBytes(StandardCharsets.UTF_8);
-  private static final byte[] MULTIPART_TWO_HYPHENS = "--".getBytes(StandardCharsets.UTF_8);
+    private static final byte[] MULTIPART_CARRIAGE_RETURN_AND_NEWLINE = "\r\n".getBytes(StandardCharsets.UTF_8);
 
-  private final TempFileBodyPublisher tempFileBodyPublisher;
-  private final OutputStream outputStream;
-  private final String boundary;
-  private final int bufferSize;
+    private static final byte[] MULTIPART_TWO_HYPHENS = "--".getBytes(StandardCharsets.UTF_8);
 
-  public MultipartFormBodyPublisher(String boundary, int bufferSize) throws IOException {
-    this.boundary = boundary;
-    this.bufferSize = bufferSize;
-    tempFileBodyPublisher = new TempFileBodyPublisher();
-    outputStream = tempFileBodyPublisher.outputStream();
-  }
+    private final TempFileBodyPublisher tempFileBodyPublisher;
 
-  public void addAttachments(List<BinaryAttachment> attachments) throws IOException {
-    for (BinaryAttachment attachment : attachments) {
-      addAttachment(attachment);
+    private final OutputStream outputStream;
+
+    private final String boundary;
+
+    private final int bufferSize;
+
+    public MultipartFormBodyPublisher(String boundary, int bufferSize) throws IOException {
+        this.boundary = boundary;
+        this.bufferSize = bufferSize;
+        tempFileBodyPublisher = new TempFileBodyPublisher();
+        outputStream = tempFileBodyPublisher.outputStream();
     }
-  }
 
-  private void addAttachment(BinaryAttachment attachment) throws IOException {
-    StringBuilder headers = new StringBuilder();
-    headers.append(new String(MULTIPART_TWO_HYPHENS, StandardCharsets.UTF_8)).append(boundary)
-      .append(new String(MULTIPART_CARRIAGE_RETURN_AND_NEWLINE, StandardCharsets.UTF_8))
-      .append("Content-Disposition: form-data; name=\"").append(attachment.getFormFieldName()).append("\"; filename=\"")
-      .append(attachment.getFilename()).append("\"")
-      .append(new String(MULTIPART_CARRIAGE_RETURN_AND_NEWLINE, StandardCharsets.UTF_8)).append("Content-Type: ")
-      .append(attachment.getContentType())
-      .append(new String(MULTIPART_CARRIAGE_RETURN_AND_NEWLINE, StandardCharsets.UTF_8))
-      .append(new String(MULTIPART_CARRIAGE_RETURN_AND_NEWLINE, StandardCharsets.UTF_8));
-
-    outputStream.write(headers.toString().getBytes(StringUtils.ENCODING_CHARSET));
-    try (InputStream data = attachment.getData()) {
-      write(data, outputStream);
+    public void addAttachments(List<BinaryAttachment> attachments) throws IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    outputStream.write((new String(MULTIPART_CARRIAGE_RETURN_AND_NEWLINE, StandardCharsets.UTF_8)
-        + new String(MULTIPART_TWO_HYPHENS, StandardCharsets.UTF_8) + boundary
-        + new String(MULTIPART_TWO_HYPHENS, StandardCharsets.UTF_8)
-        + new String(MULTIPART_CARRIAGE_RETURN_AND_NEWLINE, StandardCharsets.UTF_8))
-      .getBytes(StringUtils.ENCODING_CHARSET));
-  }
 
-  private void write(InputStream source, OutputStream destination) throws IOException {
-    byte[] buffer = new byte[bufferSize];
-    int read;
-    while ((read = source.read(buffer)) > 0) {
-      destination.write(buffer, 0, read);
+    private void addAttachment(BinaryAttachment attachment) throws IOException {
+        StringBuilder headers = new StringBuilder();
+        headers.append(new String(MULTIPART_TWO_HYPHENS, StandardCharsets.UTF_8)).append(boundary).append(new String(MULTIPART_CARRIAGE_RETURN_AND_NEWLINE, StandardCharsets.UTF_8)).append("Content-Disposition: form-data; name=\"").append(attachment.getFormFieldName()).append("\"; filename=\"").append(attachment.getFilename()).append("\"").append(new String(MULTIPART_CARRIAGE_RETURN_AND_NEWLINE, StandardCharsets.UTF_8)).append("Content-Type: ").append(attachment.getContentType()).append(new String(MULTIPART_CARRIAGE_RETURN_AND_NEWLINE, StandardCharsets.UTF_8)).append(new String(MULTIPART_CARRIAGE_RETURN_AND_NEWLINE, StandardCharsets.UTF_8));
+        outputStream.write(headers.toString().getBytes(StringUtils.ENCODING_CHARSET));
+        try (InputStream data = attachment.getData()) {
+            write(data, outputStream);
+        }
+        outputStream.write((new String(MULTIPART_CARRIAGE_RETURN_AND_NEWLINE, StandardCharsets.UTF_8) + new String(MULTIPART_TWO_HYPHENS, StandardCharsets.UTF_8) + boundary + new String(MULTIPART_TWO_HYPHENS, StandardCharsets.UTF_8) + new String(MULTIPART_CARRIAGE_RETURN_AND_NEWLINE, StandardCharsets.UTF_8)).getBytes(StringUtils.ENCODING_CHARSET));
     }
-  }
 
-  public BodyPublisher build() throws IOException {
-    outputStream.flush();
-    outputStream.close();
-    return tempFileBodyPublisher.build();
-  }
+    private void write(InputStream source, OutputStream destination) throws IOException {
+        byte[] buffer = new byte[bufferSize];
+        int read;
+        while ((read = source.read(buffer)) > 0) {
+            destination.write(buffer, 0, read);
+        }
+    }
 
-  @Override
-  public void close() throws IOException {
-    tempFileBodyPublisher.close();
-  }
+    public BodyPublisher build() throws IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public void close() throws IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

@@ -25,112 +25,89 @@ import java.util.Arrays;
 
 public enum Version {
 
-  /**
-   * unversiond api
-   */
-  UNVERSIONED(null),
+    /**
+     * unversiond api
+     */
+    UNVERSIONED(null),
+    /**
+     * <tt>Graph API 18.0</tt>, available at least until January 23, 2026
+     *
+     * @since September 12, 2023
+     */
+    VERSION_18_0("v18.0"),
+    /**
+     * <tt>Graph API 19.0</tt>, available at least until May 21, 2026
+     *
+     * @since January 23, 2024
+     */
+    VERSION_19_0("v19.0"),
+    /**
+     * <tt>Graph API 20.0</tt>, available at least until September 24, 2026
+     *
+     * @since May 21, 2024
+     */
+    VERSION_20_0("v20.0"),
+    /**
+     * <tt>Graph API 21.0</tt>, available at least until January 21, 2027
+     *
+     * @since October 2, 2024
+     */
+    VERSION_21_0("v21.0"),
+    /**
+     * <tt>Graph API 22.0</tt>, available at least until May 29, 2027
+     *
+     * @since January 21, 2025
+     */
+    VERSION_22_0("v22.0"),
+    /**
+     * <tt>Graph API 23.0</tt>, available at least until October 8, 2027
+     *
+     * @since May 29, 2025
+     */
+    VERSION_23_0("v23.0"),
+    /**
+     * <tt>Graph API 24.0</tt>, available at least until October 2027
+     *
+     * @since October 8, 2025
+     */
+    VERSION_24_0("v24.0"),
+    /**
+     * <tt>Graph API 25.0</tt>, available at least until February 2028
+     *
+     * @since February 18, 2026
+     */
+    VERSION_25_0("v25.0"),
+    /**
+     * convenience enum to provide simple access to the latest supported Graph API Version.
+     * <p>
+     * the current version is <tt>Graph API 25.0</tt>
+     * </p>
+     */
+    LATEST("v25.0"),
+    /**
+     * <tt>Threads API 1.0</tt>, according to the documentation, this is the first Threads API Version
+     */
+    THREADS_1_0("v1.0"),
+    /**
+     * convenience enum to provide simple access to the latest supported Threads API Version.
+     */
+    THREADS_LATEST("v1.0");
 
-  /**
-   * <tt>Graph API 18.0</tt>, available at least until January 23, 2026
-   *
-   * @since September 12, 2023
-   */
-  VERSION_18_0("v18.0"),
+    private final String urlElement;
 
-  /**
-   * <tt>Graph API 19.0</tt>, available at least until May 21, 2026
-   *
-   * @since January 23, 2024
-   */
-  VERSION_19_0("v19.0"),
-
-  /**
-   * <tt>Graph API 20.0</tt>, available at least until September 24, 2026
-   *
-   * @since May 21, 2024
-   */
-  VERSION_20_0("v20.0"),
-
-  /**
-   * <tt>Graph API 21.0</tt>, available at least until January 21, 2027
-   *
-   * @since October 2, 2024
-   */
-  VERSION_21_0("v21.0"),
-
-  /**
-   * <tt>Graph API 22.0</tt>, available at least until May 29, 2027
-   *
-   * @since January 21, 2025
-   */
-  VERSION_22_0("v22.0"),
-
-  /**
-   * <tt>Graph API 23.0</tt>, available at least until October 8, 2027
-   *
-   * @since May 29, 2025
-   */
-  VERSION_23_0("v23.0"),
-
-  /**
-   * <tt>Graph API 24.0</tt>, available at least until October 2027
-   *
-   * @since October 8, 2025
-   */
-  VERSION_24_0("v24.0"),
-
-  /**
-   * <tt>Graph API 25.0</tt>, available at least until February 2028
-   *
-   * @since February 18, 2026
-   */
-  VERSION_25_0("v25.0"),
-
-  /**
-   * convenience enum to provide simple access to the latest supported Graph API Version.
-   * <p>
-   * the current version is <tt>Graph API 25.0</tt>
-   * </p>
-   */
-  LATEST("v25.0"),
-
-  /**
-   * <tt>Threads API 1.0</tt>, according to the documentation, this is the first Threads API Version
-   */
-  THREADS_1_0("v1.0"),
-
-  /**
-   * convenience enum to provide simple access to the latest supported Threads API Version.
-   */
-  THREADS_LATEST("v1.0");
-
-  private final String urlElement;
-
-  Version(String urlElement) {
-    this.urlElement = urlElement;
-  }
-
-  public String getUrlElement() {
-    return this.urlElement;
-  }
-
-  public boolean isUrlElementRequired() {
-    return null != this.urlElement;
-  }
-
-  /**
-   * converts a String (for example the url parameter) into a Version object
-   * 
-   * @param urlElementStr
-   *          String that should
-   * @return the generated version
-   */
-  public static Version getVersionFromString(String urlElementStr) {
-    if (urlElementStr == null) {
-      return UNVERSIONED;
+    Version(String urlElement) {
+        this.urlElement = urlElement;
     }
 
-    return Arrays.stream(Version.values()).filter(v -> urlElementStr.equals(v.getUrlElement())).findFirst()
-      .orElse(UNVERSIONED);
-  }
+    public String getUrlElement() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public boolean isUrlElementRequired() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public static Version getVersionFromString(String urlElementStr) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

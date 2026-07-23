@@ -38,120 +38,98 @@ package com.restfb;
  */
 public interface FacebookEndpoints {
 
-  /**
-   * returns the Facebook URL
-   * 
-   * @return the Facebook URL
-   */
-  default String getFacebookEndpoint() {
-    return Endpoint.SERVER.getUrl();
-  }
+    default String getFacebookEndpoint() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  /**
-   * returns the Facebook Graph API endpoint URL
-   * 
-   * @return the Facebook Graph API endpoint URL
-   */
-  default String getGraphEndpoint() {
-    return Endpoint.GRAPH.getUrl();
-  }
-
-  /**
-   * returns the Facebook Graph API Video endpoint URL
-   * 
-   * @return the Facebook Graph API Video endpoint URL
-   * @deprecated the Graph Video endpoint is deprecated; video uploads use the Graph API endpoint
-   *             instead.
-   */
-  @Deprecated
-  default String getGraphVideoEndpoint() {
-    return Endpoint.GRAPH_VIDEO.getUrl();
-  }
-
-  /**
-   * returns the Facebook Reel Upload endpoint URL
-   *
-   * @return the Facebook Reel Upload endpoint URL
-   */
-  default String getReelUploadEndpoint() {
-    return Endpoint.RUPLOAD.getUrl();
-  }
-
-  default String getInstagramEndpoint() {
-    return Endpoint.INSTAGRAM_GRAPH.getUrl();
-  }
-
-  default String getInstagramApiEndpoint() {
-    return Endpoint.INSTAGRAM_API.getUrl();
-  }
-
-  default String getInstagramOAuthEndpoint() {
-    return Endpoint.INSTAGRAM_OAUTH.getUrl();
-  }
-
-  default String getThreadsBaseEndpoint() {
-    return Endpoint.THREADS_OAUTH.getUrl();
-  }
-
-  default String getThreadsApiEndpoint() {
-    return Endpoint.THREADS_GRAPH.getUrl();
-  }
-
-  enum Endpoint {
-    /**
-     * General Facebook endpoint URL.
-     */
-    SERVER("https://www.facebook.com"),
+    default String getGraphEndpoint() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
     /**
-     * Graph API endpoint URL.
-     */
-    GRAPH("https://graph.facebook.com"),
-
-    /**
-     * Legacy Video Upload API endpoint URL.
+     * returns the Facebook Graph API Video endpoint URL
+     *
+     * @return the Facebook Graph API Video endpoint URL
+     * @deprecated the Graph Video endpoint is deprecated; video uploads use the Graph API endpoint
+     *             instead.
      */
     @Deprecated
-    GRAPH_VIDEO("https://graph-video.facebook.com"),
-
-    /**
-     * Reels Upload endpoint URL.
-     */
-    RUPLOAD("https://rupload.facebook.com/video-upload"),
-
-    /**
-     * Instagram Graph API endpoint URL.
-     */
-    INSTAGRAM_GRAPH("https://graph.instagram.com"),
-
-    /**
-     * Instagram API endpoint URL.
-     */
-    INSTAGRAM_API("https://api.instagram.com"),
-
-    /**
-     * Instagram website URL.
-     */
-    INSTAGRAM_OAUTH("https://www.instagram.com"),
-
-    /**
-     * Threads OAuth endpoint URL.
-     */
-    THREADS_OAUTH("https://www.threads.net"),
-
-    /**
-     * Threads Graph API endpoint URL.
-     */
-    THREADS_GRAPH("https://graph.threads.net");
-
-    private final String url;
-
-    Endpoint(String url) {
-      this.url = url;
+    default String getGraphVideoEndpoint() {
+        return Endpoint.GRAPH_VIDEO.getUrl();
     }
 
-    public String getUrl() {
-      return url;
+    default String getReelUploadEndpoint() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-  }
+
+    default String getInstagramEndpoint() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    default String getInstagramApiEndpoint() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    default String getInstagramOAuthEndpoint() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    default String getThreadsBaseEndpoint() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    default String getThreadsApiEndpoint() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    enum Endpoint {
+
+        /**
+         * General Facebook endpoint URL.
+         */
+        SERVER("https://www.facebook.com"),
+        /**
+         * Graph API endpoint URL.
+         */
+        GRAPH("https://graph.facebook.com"),
+        /**
+         * Legacy Video Upload API endpoint URL.
+         */
+        @Deprecated
+        GRAPH_VIDEO("https://graph-video.facebook.com"),
+        /**
+         * Reels Upload endpoint URL.
+         */
+        RUPLOAD("https://rupload.facebook.com/video-upload"),
+        /**
+         * Instagram Graph API endpoint URL.
+         */
+        INSTAGRAM_GRAPH("https://graph.instagram.com"),
+        /**
+         * Instagram API endpoint URL.
+         */
+        INSTAGRAM_API("https://api.instagram.com"),
+        /**
+         * Instagram website URL.
+         */
+        INSTAGRAM_OAUTH("https://www.instagram.com"),
+        /**
+         * Threads OAuth endpoint URL.
+         */
+        THREADS_OAUTH("https://www.threads.net"),
+        /**
+         * Threads Graph API endpoint URL.
+         */
+        THREADS_GRAPH("https://graph.threads.net");
+
+        private final String url;
+
+        Endpoint(String url) {
+            this.url = url;
+        }
+
+        public String getUrl() {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
+    }
 }

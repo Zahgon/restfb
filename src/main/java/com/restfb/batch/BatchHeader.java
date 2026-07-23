@@ -26,68 +26,59 @@ import com.restfb.util.ReflectionUtils;
 
 /**
  * Represents an HTTP header name/value pair used by {@link BatchRequest} and {@link BatchResponse}.
- * 
+ *
  * @author <a href="http://restfb.com">Mark Allen</a>
  * @since 1.6.5
  */
 public class BatchHeader {
-  @Facebook
-  private String name;
 
-  @Facebook
-  private String value;
+    @Facebook
+    private String name;
 
-  /**
-   * "Magic" no-argument constructor so we can reflectively make instances of this class with DefaultJsonMapper, but
-   * normal client code cannot.
-   */
-  protected BatchHeader() {
-    // nothing here
-  }
+    @Facebook
+    private String value;
 
-  /**
-   * Creates a {@code BatchHeader} with the given name/value pair.
-   * 
-   * @param name
-   *          The name of the header.
-   * @param value
-   *          The value of the header.
-   */
-  public BatchHeader(String name, String value) {
-    this.name = name;
-    this.value = value;
-  }
+    /**
+     * "Magic" no-argument constructor so we can reflectively make instances of this class with DefaultJsonMapper, but
+     * normal client code cannot.
+     */
+    protected BatchHeader() {
+        // nothing here
+    }
 
-  @Override
-  public int hashCode() {
-    return ReflectionUtils.hashCode(this);
-  }
+    /**
+     * Creates a {@code BatchHeader} with the given name/value pair.
+     *
+     * @param name
+     *          The name of the header.
+     * @param value
+     *          The value of the header.
+     */
+    public BatchHeader(String name, String value) {
+        this.name = name;
+        this.value = value;
+    }
 
-  @Override
-  public boolean equals(Object that) {
-    return ReflectionUtils.equals(this, that);
-  }
+    @Override
+    public int hashCode() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public String toString() {
-    return ReflectionUtils.toString(this);
-  }
+    @Override
+    public boolean equals(Object that) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  /**
-   * The name of the HTTP header.
-   * 
-   * @return The name of the HTTP header.
-   */
-  public String getName() {
-    return name;
-  }
+    @Override
+    public String toString() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  /**
-   * The value of the HTTP header.
-   * 
-   * @return The value of the HTTP header.
-   */
-  public String getValue() {
-    return value;
-  }
+    public String getName() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public String getValue() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

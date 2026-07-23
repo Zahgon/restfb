@@ -30,149 +30,118 @@ import java.util.StringJoiner;
 
 /**
  * Root of the RestFB exception hierarchy.
- * 
+ *
  * @author <a href="http://restfb.com">Mark Allen</a>
  * @author <a href="Http://restfb.com">Norbert Bartels</a>
  */
 public abstract class FacebookException extends RuntimeException {
-  private static final long serialVersionUID = 1L;
 
-  private InfoData infoData;
-
-  /**
-   * Creates an exception with the given message.
-   * 
-   * @param message
-   *          A message describing this exception.
-   */
-  protected FacebookException(String message) {
-    super(message);
-  }
-
-  /**
-   * Creates an exception with the given message and cause.
-   * 
-   * @param message
-   *          A message describing this exception.
-   * @param cause
-   *          The exception that caused this exception to be thrown.
-   */
-  protected FacebookException(String message, Throwable cause) {
-    super(message, cause);
-  }
-
-  /**
-   * Adds optional request metadata to the exception for diagnostics.
-   *
-   * @param infoData
-   *          encapsulated request metadata (may be {@code null})
-   * @return this exception for fluent usage.
-   */
-  public FacebookException withInfoData(InfoData infoData) {
-    this.infoData = infoData;
-    return this;
-  }
-
-  /**
-   * Convenience helper to attach request metadata.
-   *
-   * @return this exception for fluent usage.
-   */
-  public FacebookException withInfoData(String httpMethod, String fullEndpoint, String parameterString,
-      String headerAccessToken, Long startTime) {
-    return withInfoData(new InfoData(httpMethod, fullEndpoint, parameterString, headerAccessToken, startTime));
-  }
-
-  @Override
-  public String getMessage() {
-    return super.getMessage() + getInfoData().map(s -> ", " + s).orElse("");
-  }
-
-  public String getBasicMessage() {
-    return super.getMessage();
-  }
-
-  /**
-   * Request metadata associated with this exception, if available.
-   *
-   * @return optional request metadata
-   */
-  public Optional<InfoData> getInfoData() {
-    return Optional.ofNullable(infoData);
-  }
-
-  /**
-   * Aggregates optional metadata that may help diagnose a failing Facebook request.
-   */
-  public static final class InfoData implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final String httpMethod;
-    private final String fullEndpoint;
-    private final String parameterString;
-    private final String headerAccessToken;
-    private final Long startTime;
-    private final long endTime;
+    private InfoData infoData;
 
-    public InfoData(String httpMethod, String fullEndpoint, String parameterString, String headerAccessToken,
-        Long startTime) {
-      this.httpMethod = httpMethod;
-      this.fullEndpoint = fullEndpoint;
-      this.parameterString = parameterString;
-      this.headerAccessToken = headerAccessToken;
-      this.startTime = startTime;
-      this.endTime = System.currentTimeMillis();
+    /**
+     * Creates an exception with the given message.
+     *
+     * @param message
+     *          A message describing this exception.
+     */
+    protected FacebookException(String message) {
+        super(message);
     }
 
-    public String getHttpMethod() {
-      return httpMethod;
+    /**
+     * Creates an exception with the given message and cause.
+     *
+     * @param message
+     *          A message describing this exception.
+     * @param cause
+     *          The exception that caused this exception to be thrown.
+     */
+    protected FacebookException(String message, Throwable cause) {
+        super(message, cause);
     }
 
-    public String getFullEndpoint() {
-      return fullEndpoint;
+    public FacebookException withInfoData(InfoData infoData) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public String getParameterString() {
-      return parameterString;
-    }
-
-    public String getHeaderAccessToken() {
-      return headerAccessToken;
-    }
-
-    public Duration getDuration() {
-      if (startTime == null) {
-        return Duration.ZERO;
-      }
-      return Duration.ofMillis(Math.max(0, endTime - startTime));
-    }
-
-    public String getDurationAsString() {
-      return startTime == null ? "unknown" : getDuration().toMillis() + "ms";
-    }
-
-    public String getUrl() {
-      String parameterStringToReturn;
-      try {
-        parameterStringToReturn = URLDecoder.decode(parameterString, StandardCharsets.UTF_8);
-      } catch (Exception e) {
-        parameterStringToReturn = parameterString;
-      }
-      String endpointToReturn;
-      try {
-        endpointToReturn = URLDecoder.decode(fullEndpoint, StandardCharsets.UTF_8);
-      } catch (Exception e) {
-        endpointToReturn = fullEndpoint;
-      }
-      return endpointToReturn + (parameterString != null ? "?" + parameterStringToReturn : "");
+    public FacebookException withInfoData(String httpMethod, String fullEndpoint, String parameterString, String headerAccessToken, Long startTime) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
-    public String toString() {
-      return "URL: " + httpMethod + ": " + getUrl() +
-              (headerAccessToken != null ? " headerAccessToken: " + headerAccessToken : "")
-              + ", response-time: " + getDurationAsString();
+    public String getMessage() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-  }
+    public String getBasicMessage() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public Optional<InfoData> getInfoData() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    /**
+     * Aggregates optional metadata that may help diagnose a failing Facebook request.
+     */
+    public static final class InfoData implements Serializable {
+
+        private static final long serialVersionUID = 1L;
+
+        private final String httpMethod;
+
+        private final String fullEndpoint;
+
+        private final String parameterString;
+
+        private final String headerAccessToken;
+
+        private final Long startTime;
+
+        private final long endTime;
+
+        public InfoData(String httpMethod, String fullEndpoint, String parameterString, String headerAccessToken, Long startTime) {
+            this.httpMethod = httpMethod;
+            this.fullEndpoint = fullEndpoint;
+            this.parameterString = parameterString;
+            this.headerAccessToken = headerAccessToken;
+            this.startTime = startTime;
+            this.endTime = System.currentTimeMillis();
+        }
+
+        public String getHttpMethod() {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
+
+        public String getFullEndpoint() {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
+
+        public String getParameterString() {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
+
+        public String getHeaderAccessToken() {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
+
+        public Duration getDuration() {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
+
+        public String getDurationAsString() {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
+
+        public String getUrl() {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
+
+        @Override
+        public String toString() {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
+    }
 }

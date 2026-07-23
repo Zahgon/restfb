@@ -28,29 +28,30 @@ import static java.lang.String.format;
  */
 public class FacebookNetworkException extends FacebookException {
 
-  private final Integer httpStatusCode;
-  private static final long serialVersionUID = 1L;
-  private static final String MESSAGE = "Facebook request failed";
+    private final Integer httpStatusCode;
 
-  public FacebookNetworkException(Throwable cause) {
-    this(MESSAGE, cause, null);
-  }
+    private static final long serialVersionUID = 1L;
 
-  public FacebookNetworkException(Integer httpStatusCode) {
-    this(MESSAGE, null, httpStatusCode);
-  }
+    private static final String MESSAGE = "Facebook request failed";
 
-  public FacebookNetworkException(Throwable cause, Integer httpStatusCode) {
-    this(MESSAGE, cause, httpStatusCode);
-  }
+    public FacebookNetworkException(Throwable cause) {
+        this(MESSAGE, cause, null);
+    }
 
-  protected FacebookNetworkException(String message, Throwable cause, Integer httpStatusCode) {
-    super(format("A network error occurred while trying to communicate with Facebook: %s%s", message,
-      httpStatusCode != null ? format(" (HTTP status code %d)", httpStatusCode) : ""), cause);
-    this.httpStatusCode = httpStatusCode;
-  }
+    public FacebookNetworkException(Integer httpStatusCode) {
+        this(MESSAGE, null, httpStatusCode);
+    }
 
-  public Integer getHttpStatusCode() {
-    return httpStatusCode;
-  }
+    public FacebookNetworkException(Throwable cause, Integer httpStatusCode) {
+        this(MESSAGE, cause, httpStatusCode);
+    }
+
+    protected FacebookNetworkException(String message, Throwable cause, Integer httpStatusCode) {
+        super(format("A network error occurred while trying to communicate with Facebook: %s%s", message, httpStatusCode != null ? format(" (HTTP status code %d)", httpStatusCode) : ""), cause);
+        this.httpStatusCode = httpStatusCode;
+    }
+
+    public Integer getHttpStatusCode() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

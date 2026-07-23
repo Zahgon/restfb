@@ -32,78 +32,128 @@ import com.restfb.types.webhook.instagram.InstagramStoryInsightsValue;
  */
 public abstract class AbstractWebhookChangeListener implements WebhookChangeListener {
 
-  @Override
-  public void feedCommentValue(FeedCommentValue feedCommentValue) {}
+    @Override
+    public void feedCommentValue(FeedCommentValue feedCommentValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void feedPhotoAddValue(FeedPhotoAddValue feedPhotoAddValue) {}
+    @Override
+    public void feedPhotoAddValue(FeedPhotoAddValue feedPhotoAddValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void feedPhotoRemoveValue(FeedPhotoRemoveValue feedPhotoRemoveValue) {}
+    @Override
+    public void feedPhotoRemoveValue(FeedPhotoRemoveValue feedPhotoRemoveValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void feedVideoValue(FeedVideoValue feedVideoValue) {}
+    @Override
+    public void feedVideoValue(FeedVideoValue feedVideoValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void feedVideoRemoveValue(FeedVideoRemoveValue feedVideoRemoveValue) {}
+    @Override
+    public void feedVideoRemoveValue(FeedVideoRemoveValue feedVideoRemoveValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void feedStatusValue(FeedStatusValue feedStatusValue) {}
+    @Override
+    public void feedStatusValue(FeedStatusValue feedStatusValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void feedAlbumAddValue(FeedAlbumAddValue feedAlbumAddValue) {}
+    @Override
+    public void feedAlbumAddValue(FeedAlbumAddValue feedAlbumAddValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void feedLikeValue(FeedLikeValue feedLikeValue) {}
+    @Override
+    public void feedLikeValue(FeedLikeValue feedLikeValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void feedEventValue(FeedEventValue feedEventValue) {}
+    @Override
+    public void feedEventValue(FeedEventValue feedEventValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void feedPostValue(FeedPostValue feedPostValue) {}
+    @Override
+    public void feedPostValue(FeedPostValue feedPostValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void feedVideoBlockMute(FeedVideoBlockMute feedVideoBlockMute) {}
+    @Override
+    public void feedVideoBlockMute(FeedVideoBlockMute feedVideoBlockMute) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void feedReactionValue(FeedReactionValue feedReactionValue) {}
+    @Override
+    public void feedReactionValue(FeedReactionValue feedReactionValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void feedShareValue(FeedShareValue feedShareValue) {}
+    @Override
+    public void feedShareValue(FeedShareValue feedShareValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void feedAlbumEditedValue(FeedAlbumEditedValue feedAlbumEditedValue) {}
+    @Override
+    public void feedAlbumEditedValue(FeedAlbumEditedValue feedAlbumEditedValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void instagramCommentsValue(InstagramCommentsValue instagramCommentsValue) {}
+    @Override
+    public void instagramCommentsValue(InstagramCommentsValue instagramCommentsValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void instagramMentionsValue(InstagramMentionsValue instagramMentionsValue) {}
+    @Override
+    public void instagramMentionsValue(InstagramMentionsValue instagramMentionsValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void instagramStoryInsightsValue(InstagramStoryInsightsValue instagramStoryInsightsValue) {}
+    @Override
+    public void instagramStoryInsightsValue(InstagramStoryInsightsValue instagramStoryInsightsValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void pageLeadgen(PageLeadgen pageLeadgen) {}
+    @Override
+    public void pageLeadgen(PageLeadgen pageLeadgen) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void permissionChangeValue(PermissionChangeValue permissionChangeValue) {}
+    @Override
+    public void permissionChangeValue(PermissionChangeValue permissionChangeValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void mentionPostAddValue(MentionPostAddValue mentionPostAddValue) {}
+    @Override
+    public void mentionPostAddValue(MentionPostAddValue mentionPostAddValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void userPageValue(UserPageValue userPageValue) {}
+    @Override
+    public void userPageValue(UserPageValue userPageValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void ratingsReactionValue(RatingsReactionValue ratingsReactionValue) {}
+    @Override
+    public void ratingsReactionValue(RatingsReactionValue ratingsReactionValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void ratingsLikeValue(RatingsLikeValue ratingsLikeValue) {}
+    @Override
+    public void ratingsLikeValue(RatingsLikeValue ratingsLikeValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void ratingsCommentValue(RatingsCommentValue ratingsCommentValue) {}
+    @Override
+    public void ratingsCommentValue(RatingsCommentValue ratingsCommentValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void ratingsRatingValue(RatingsRatingValue ratingsRatingValue) {}
+    @Override
+    public void ratingsRatingValue(RatingsRatingValue ratingsRatingValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

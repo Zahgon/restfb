@@ -24,38 +24,33 @@ package com.restfb.scope;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import com.restfb.exception.FacebookPreconditionException;
 import com.restfb.util.ObjectUtil;
 
 public class ScopeBuilder {
 
-  private final List<FacebookPermissions> permissions = new ArrayList<>();
+    private final List<FacebookPermissions> permissions = new ArrayList<>();
 
-  public ScopeBuilder(boolean withoutPublicProfile) {
-    if (!withoutPublicProfile) {
-      permissions.add(FacebookPermissions.PUBLIC_PROFILE);
+    public ScopeBuilder(boolean withoutPublicProfile) {
+        if (!withoutPublicProfile) {
+            permissions.add(FacebookPermissions.PUBLIC_PROFILE);
+        }
     }
-  }
 
-  public ScopeBuilder() {
-    this(false);
-  }
+    public ScopeBuilder() {
+        this(false);
+    }
 
-  public ScopeBuilder addPermission(FacebookPermissions permission) {
-    permissions.add(permission);
-    return this;
-  }
+    public ScopeBuilder addPermission(FacebookPermissions permission) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  public ScopeBuilder addPermissions(List<FacebookPermissions> permissionList) {
-    ObjectUtil.requireNotNull(permissionList, () -> new FacebookPreconditionException("permissionList must not be null"));
-    permissions.addAll(permissionList);
-    return this;
-  }
+    public ScopeBuilder addPermissions(List<FacebookPermissions> permissionList) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public String toString() {
-    return permissions.stream().map(FacebookPermissions::getPermissionString).collect(Collectors.joining(","));
-  }
-
+    @Override
+    public String toString() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

@@ -22,7 +22,6 @@
 package com.restfb.util;
 
 import static com.restfb.util.StringUtils.isBlank;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
@@ -31,88 +30,31 @@ import java.util.function.Supplier;
 
 public class ObjectUtil {
 
-  private ObjectUtil() {
-    // prevent instantiation
-  }
-
-  /**
-   * Ensures that {@code obj} isn't {@code null} or an empty string.
-   *
-   * @param obj
-   *          The parameter to check.
-   * @param errorText
-   *          The exception message.
-   * @throws IllegalArgumentException
-   *           If {@code obj} is {@code null} or an empty string.
-   */
-  public static String requireNotEmpty(String obj, String errorText) {
-    if (isBlank(obj)) {
-      throw new IllegalArgumentException(errorText);
-    }
-    return obj;
-  }
-
-  public static void requireNotEmpty(Collection<?> collection, String errorText) {
-    if (collection == null || collection.isEmpty()) {
-      throw new IllegalArgumentException(errorText);
-    }
-  }
-
-  /**
-   * Ensures that {@code obj} isn't {@code null}.
-   *
-   * @param obj
-   *          The parameter to check.
-   * @param exceptionSupplier
-   *          The supplier for the exception that is thrown if obj is null.
-   * @throws T
-   *           If {@code obj} is {@code null}.
-   */
-  public static <T extends Exception> void requireNotNull(Object obj, Supplier<T> exceptionSupplier) throws T {
-    Optional.ofNullable(obj).orElseThrow(exceptionSupplier);
-  }
-
-  /**
-   * Checks is the object is a empty 'collection' or 'map'.
-   * 
-   * @param obj
-   *          the object that is checked
-   * @return {@code true} if the given object is a empty collection or an empty map, {@code false} otherwise
-   */
-  public static boolean isEmptyCollectionOrMap(Object obj) {
-    if (obj instanceof Collection) {
-      return ((Collection) obj).isEmpty();
+    private ObjectUtil() {
+        // prevent instantiation
     }
 
-    return (obj instanceof Map && ((Map) obj).isEmpty());
-  }
+    public static String requireNotEmpty(String obj, String errorText) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  /**
-   * Ensures that {@code parameter} isn't {@code null} or an empty string.
-   *
-   * @param parameterName
-   *          The name of the parameter (to be used in exception message).
-   * @param parameter
-   *          The parameter to check.
-   * @throws IllegalArgumentException
-   *           If {@code parameter} is {@code null} or an empty string.
-   */
-  public static void verifyParameterPresence(String parameterName, String parameter) {
-    verifyParameterPresence(parameterName, (Object) parameter);
-    requireNotEmpty(parameter, "The '" + parameterName + "' parameter cannot be an empty string.");
-  }
+    public static void requireNotEmpty(Collection<?> collection, String errorText) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  /**
-   * Ensures that {@code parameter} isn't {@code null}.
-   *
-   * @param parameterName
-   *          The name of the parameter (to be used in exception message).
-   * @param parameter
-   *          The parameter to check.
-   * @throws NullPointerException
-   *           If {@code parameter} is {@code null}.
-   */
-  public static void verifyParameterPresence(String parameterName, Object parameter) {
-    Objects.requireNonNull(parameter, "The '" + parameterName + "' parameter cannot be null.");
-  }
+    public static <T extends Exception> void requireNotNull(Object obj, Supplier<T> exceptionSupplier) throws T {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public static boolean isEmptyCollectionOrMap(Object obj) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public static void verifyParameterPresence(String parameterName, String parameter) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public static void verifyParameterPresence(String parameterName, Object parameter) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

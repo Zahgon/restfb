@@ -22,94 +22,78 @@
 package com.restfb.batch;
 
 import static java.util.Collections.unmodifiableList;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import com.restfb.Facebook;
 import com.restfb.util.ReflectionUtils;
 
 /**
  * Encapsulates a discrete part of an entire
  * <a href="https://developers.facebook.com/docs/reference/api/batch/" target="_blank">Facebook Batch API</a> response.
- * 
+ *
  * @author <a href="http://restfb.com">Mark Allen</a>
  * @since 1.6.5
  */
 public class BatchResponse {
-  @Facebook
-  private Integer code;
 
-  @Facebook
-  private String body;
+    @Facebook
+    private Integer code;
 
-  @Facebook
-  private List<BatchHeader> headers = new ArrayList<>();
+    @Facebook
+    private String body;
 
-  /**
-   * "Magic" no-argument constructor so we can reflectively make instances of this class with DefaultJsonMapper, but
-   * normal client code cannot.
-   */
-  protected BatchResponse() {}
+    @Facebook
+    private List<BatchHeader> headers = new ArrayList<>();
 
-  /**
-   * Creates a batch response with the given HTTP response status code, headers, and JSON body.
-   * 
-   * @param code
-   *          HTTP status code.
-   * @param headers
-   *          HTTP headers.
-   * @param body
-   *          JSON body.
-   */
-  public BatchResponse(Integer code, List<BatchHeader> headers, String body) {
-    this.code = code;
-    this.body = body;
-
-    if (headers != null) {
-      this.headers.addAll(headers);
+    /**
+     * "Magic" no-argument constructor so we can reflectively make instances of this class with DefaultJsonMapper, but
+     * normal client code cannot.
+     */
+    protected BatchResponse() {
     }
-  }
 
-  @Override
-  public int hashCode() {
-    return ReflectionUtils.hashCode(this);
-  }
+    /**
+     * Creates a batch response with the given HTTP response status code, headers, and JSON body.
+     *
+     * @param code
+     *          HTTP status code.
+     * @param headers
+     *          HTTP headers.
+     * @param body
+     *          JSON body.
+     */
+    public BatchResponse(Integer code, List<BatchHeader> headers, String body) {
+        this.code = code;
+        this.body = body;
+        if (headers != null) {
+            this.headers.addAll(headers);
+        }
+    }
 
-  @Override
-  public boolean equals(Object that) {
-    return ReflectionUtils.equals(this, that);
-  }
+    @Override
+    public int hashCode() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public String toString() {
-    return ReflectionUtils.toString(this);
-  }
+    @Override
+    public boolean equals(Object that) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  /**
-   * The HTTP status code for this response.
-   * 
-   * @return The HTTP status code for this response.
-   */
-  public Integer getCode() {
-    return code;
-  }
+    @Override
+    public String toString() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  /**
-   * The HTTP response body JSON.
-   * 
-   * @return The HTTP response body JSON.
-   */
-  public String getBody() {
-    return body;
-  }
+    public Integer getCode() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  /**
-   * The HTTP response headers.
-   * 
-   * @return The HTTP response headers.
-   */
-  public List<BatchHeader> getHeaders() {
-    return unmodifiableList(headers);
-  }
+    public String getBody() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public List<BatchHeader> getHeaders() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

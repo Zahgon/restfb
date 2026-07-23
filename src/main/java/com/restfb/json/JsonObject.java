@@ -1,30 +1,31 @@
-/*******************************************************************************
- * Copyright (c) 2013, 2015 EclipseSource.
+/**
+ * ****************************************************************************
+ *  Copyright (c) 2013, 2015 EclipseSource.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ *  The above copyright notice and this permission notice shall be included in all
+ *  copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- ******************************************************************************/
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *  SOFTWARE.
+ * ****************************************************************************
+ */
 package com.restfb.json;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.*;
-
 import com.restfb.json.JsonObject.Member;
 
 /**
@@ -41,7 +42,7 @@ import com.restfb.json.JsonObject.Member;
  * {@link #names()}. This class also supports iterating over the members in document order using an {@link #iterator()}
  * or an enhanced for loop:
  * </p>
- * 
+ *
  * <pre>
  * for (Member member : jsonObject) {
  *   String name = member.getName();
@@ -62,791 +63,266 @@ import com.restfb.json.JsonObject.Member;
  * This class is <strong>not supposed to be extended</strong> by clients.
  * </p>
  */
-@SuppressWarnings("serial") // use default serial UID
+// use default serial UID
+@SuppressWarnings("serial")
 public class JsonObject extends JsonValue implements Iterable<Member> {
 
-  private final List<String> names;
-  private final List<JsonValue> values;
-  private transient HashIndexTable table;
+    private final List<String> names;
 
-  /**
-   * Creates a new empty JsonObject.
-   */
-  public JsonObject() {
-    names = new ArrayList<>();
-    values = new ArrayList<>();
-    table = new HashIndexTable();
-  }
+    private final List<JsonValue> values;
 
-  /**
-   * Creates a new JsonObject, initialized with the contents of the specified JSON object.
-   *
-   * @param object
-   *          the JSON object to get the initial contents from, must not be <code>null</code>
-   */
-  public JsonObject(JsonObject object) {
-    this(object, false);
-  }
+    private transient HashIndexTable table;
 
-  private JsonObject(JsonObject object, boolean unmodifiable) {
-    Objects.requireNonNull(object, OBJECT_IS_NULL);
-    if (unmodifiable) {
-      names = Collections.unmodifiableList(object.names);
-      values = Collections.unmodifiableList(object.values);
-    } else {
-      names = new ArrayList<>(object.names);
-      values = new ArrayList<>(object.values);
-    }
-    table = new HashIndexTable();
-    updateHashIndex();
-  }
-
-  /**
-   * Returns an unmodifiable JsonObject for the specified one. This method allows to provide read-only access to a
-   * JsonObject.
-   * <p>
-   * The returned JsonObject is backed by the given object and reflect changes that happen to it. Attempts to modify the
-   * returned JsonObject result in an <code>UnsupportedOperationException</code>.
-   * </p>
-   *
-   * @param object
-   *          the JsonObject for which an unmodifiable JsonObject is to be returned
-   * @return an unmodifiable view of the specified JsonObject
-   */
-  public static JsonObject unmodifiableObject(JsonObject object) {
-    return new JsonObject(object, true);
-  }
-
-  /**
-   * Appends a new member to the end of this object, with the specified name and the JSON representation of the
-   * specified <code>int</code> value.
-   * <p>
-   * This method <strong>does not prevent duplicate names</strong>. Calling this method with a name that already exists
-   * in the object will append another member with the same name. In order to replace existing members, use the method
-   * <code>set(name, value)</code> instead. However, <strong> <em>add</em> is much faster than <em>set</em></strong>
-   * (because it does not need to search for existing members). Therefore <em>add</em> should be preferred when
-   * constructing new objects.
-   * </p>
-   *
-   * @param name
-   *          the name of the member to add
-   * @param value
-   *          the value of the member to add
-   * @return the object itself, to enable method chaining
-   */
-  public JsonObject add(String name, int value) {
-    add(name, Json.value(value));
-    return this;
-  }
-
-  /**
-   * Appends a new member to the end of this object, with the specified name and the JSON representation of the
-   * specified <code>long</code> value.
-   * <p>
-   * This method <strong>does not prevent duplicate names</strong>. Calling this method with a name that already exists
-   * in the object will append another member with the same name. In order to replace existing members, use the method
-   * <code>set(name, value)</code> instead. However, <strong> <em>add</em> is much faster than <em>set</em></strong>
-   * (because it does not need to search for existing members). Therefore <em>add</em> should be preferred when
-   * constructing new objects.
-   * </p>
-   *
-   * @param name
-   *          the name of the member to add
-   * @param value
-   *          the value of the member to add
-   * @return the object itself, to enable method chaining
-   */
-  public JsonObject add(String name, long value) {
-    add(name, Json.value(value));
-    return this;
-  }
-
-  /**
-   * Appends a new member to the end of this object, with the specified name and the JSON representation of the
-   * specified <code>float</code> value.
-   * <p>
-   * This method <strong>does not prevent duplicate names</strong>. Calling this method with a name that already exists
-   * in the object will append another member with the same name. In order to replace existing members, use the method
-   * <code>set(name, value)</code> instead. However, <strong> <em>add</em> is much faster than <em>set</em></strong>
-   * (because it does not need to search for existing members). Therefore <em>add</em> should be preferred when
-   * constructing new objects.
-   * </p>
-   *
-   * @param name
-   *          the name of the member to add
-   * @param value
-   *          the value of the member to add
-   * @return the object itself, to enable method chaining
-   */
-  public JsonObject add(String name, float value) {
-    add(name, Json.value(value));
-    return this;
-  }
-
-  /**
-   * Appends a new member to the end of this object, with the specified name and the JSON representation of the
-   * specified <code>double</code> value.
-   * <p>
-   * This method <strong>does not prevent duplicate names</strong>. Calling this method with a name that already exists
-   * in the object will append another member with the same name. In order to replace existing members, use the method
-   * <code>set(name, value)</code> instead. However, <strong> <em>add</em> is much faster than <em>set</em></strong>
-   * (because it does not need to search for existing members). Therefore <em>add</em> should be preferred when
-   * constructing new objects.
-   * </p>
-   *
-   * @param name
-   *          the name of the member to add
-   * @param value
-   *          the value of the member to add
-   * @return the object itself, to enable method chaining
-   */
-  public JsonObject add(String name, double value) {
-    add(name, Json.value(value));
-    return this;
-  }
-
-  /**
-   * Appends a new member to the end of this object, with the specified name and the JSON representation of the
-   * specified <code>boolean</code> value.
-   * <p>
-   * This method <strong>does not prevent duplicate names</strong>. Calling this method with a name that already exists
-   * in the object will append another member with the same name. In order to replace existing members, use the method
-   * <code>set(name, value)</code> instead. However, <strong> <em>add</em> is much faster than <em>set</em></strong>
-   * (because it does not need to search for existing members). Therefore <em>add</em> should be preferred when
-   * constructing new objects.
-   * </p>
-   *
-   * @param name
-   *          the name of the member to add
-   * @param value
-   *          the value of the member to add
-   * @return the object itself, to enable method chaining
-   */
-  public JsonObject add(String name, boolean value) {
-    add(name, Json.value(value));
-    return this;
-  }
-
-  /**
-   * Appends a new member to the end of this object, with the specified name and the JSON representation of the
-   * specified string.
-   * <p>
-   * This method <strong>does not prevent duplicate names</strong>. Calling this method with a name that already exists
-   * in the object will append another member with the same name. In order to replace existing members, use the method
-   * <code>set(name, value)</code> instead. However, <strong> <em>add</em> is much faster than <em>set</em></strong>
-   * (because it does not need to search for existing members). Therefore <em>add</em> should be preferred when
-   * constructing new objects.
-   * </p>
-   *
-   * @param name
-   *          the name of the member to add
-   * @param value
-   *          the value of the member to add
-   * @return the object itself, to enable method chaining
-   */
-  public JsonObject add(String name, String value) {
-    add(name, Json.value(value));
-    return this;
-  }
-
-  /**
-   * Appends a new member to the end of this object, with the specified name and the specified JSON value.
-   * <p>
-   * This method <strong>does not prevent duplicate names</strong>. Calling this method with a name that already exists
-   * in the object will append another member with the same name. In order to replace existing members, use the method
-   * <code>set(name, value)</code> instead. However, <strong> <em>add</em> is much faster than <em>set</em></strong>
-   * (because it does not need to search for existing members). Therefore <em>add</em> should be preferred when
-   * constructing new objects.
-   * </p>
-   *
-   * @param name
-   *          the name of the member to add
-   * @param value
-   *          the value of the member to add, must not be <code>null</code>
-   * @return the object itself, to enable method chaining
-   */
-  public JsonObject add(String name, JsonValue value) {
-    Objects.requireNonNull(name, NAME_IS_NULL);
-    Objects.requireNonNull(value, VALUE_IS_NULL);
-    table.add(name, names.size());
-    names.add(name);
-    values.add(value);
-    return this;
-  }
-
-  /**
-   * Sets the value of the member with the specified name to the JSON representation of the specified <code>int</code>
-   * value. If this object does not contain a member with this name, a new member is added at the end of the object. If
-   * this object contains multiple members with this name, only the last one is changed.
-   * <p>
-   * This method should <strong>only be used to modify existing objects</strong>. To fill a new object with members, the
-   * method <code>add(name, value)</code> should be preferred which is much faster (as it does not need to search for
-   * existing members).
-   * </p>
-   *
-   * @param name
-   *          the name of the member to replace
-   * @param value
-   *          the value to set to the member
-   * @return the object itself, to enable method chaining
-   */
-  public JsonObject set(String name, int value) {
-    set(name, Json.value(value));
-    return this;
-  }
-
-  /**
-   * Sets the value of the member with the specified name to the JSON representation of the specified <code>long</code>
-   * value. If this object does not contain a member with this name, a new member is added at the end of the object. If
-   * this object contains multiple members with this name, only the last one is changed.
-   * <p>
-   * This method should <strong>only be used to modify existing objects</strong>. To fill a new object with members, the
-   * method <code>add(name, value)</code> should be preferred which is much faster (as it does not need to search for
-   * existing members).
-   * </p>
-   *
-   * @param name
-   *          the name of the member to replace
-   * @param value
-   *          the value to set to the member
-   * @return the object itself, to enable method chaining
-   */
-  public JsonObject set(String name, long value) {
-    set(name, Json.value(value));
-    return this;
-  }
-
-  /**
-   * Sets the value of the member with the specified name to the JSON representation of the specified <code>float</code>
-   * value. If this object does not contain a member with this name, a new member is added at the end of the object. If
-   * this object contains multiple members with this name, only the last one is changed.
-   * <p>
-   * This method should <strong>only be used to modify existing objects</strong>. To fill a new object with members, the
-   * method <code>add(name, value)</code> should be preferred which is much faster (as it does not need to search for
-   * existing members).
-   * </p>
-   *
-   * @param name
-   *          the name of the member to add
-   * @param value
-   *          the value of the member to add
-   * @return the object itself, to enable method chaining
-   */
-  public JsonObject set(String name, float value) {
-    set(name, Json.value(value));
-    return this;
-  }
-
-  /**
-   * Sets the value of the member with the specified name to the JSON representation of the specified
-   * <code>double</code> value. If this object does not contain a member with this name, a new member is added at the
-   * end of the object. If this object contains multiple members with this name, only the last one is changed.
-   * <p>
-   * This method should <strong>only be used to modify existing objects</strong>. To fill a new object with members, the
-   * method <code>add(name, value)</code> should be preferred which is much faster (as it does not need to search for
-   * existing members).
-   * </p>
-   *
-   * @param name
-   *          the name of the member to add
-   * @param value
-   *          the value of the member to add
-   * @return the object itself, to enable method chaining
-   */
-  public JsonObject set(String name, double value) {
-    set(name, Json.value(value));
-    return this;
-  }
-
-  /**
-   * Sets the value of the member with the specified name to the JSON representation of the specified
-   * <code>boolean</code> value. If this object does not contain a member with this name, a new member is added at the
-   * end of the object. If this object contains multiple members with this name, only the last one is changed.
-   * <p>
-   * This method should <strong>only be used to modify existing objects</strong>. To fill a new object with members, the
-   * method <code>add(name, value)</code> should be preferred which is much faster (as it does not need to search for
-   * existing members).
-   * </p>
-   *
-   * @param name
-   *          the name of the member to add
-   * @param value
-   *          the value of the member to add
-   * @return the object itself, to enable method chaining
-   */
-  public JsonObject set(String name, boolean value) {
-    set(name, Json.value(value));
-    return this;
-  }
-
-  /**
-   * Sets the value of the member with the specified name to the JSON representation of the specified string. If this
-   * object does not contain a member with this name, a new member is added at the end of the object. If this object
-   * contains multiple members with this name, only the last one is changed.
-   * <p>
-   * This method should <strong>only be used to modify existing objects</strong>. To fill a new object with members, the
-   * method <code>add(name, value)</code> should be preferred which is much faster (as it does not need to search for
-   * existing members).
-   * </p>
-   *
-   * @param name
-   *          the name of the member to add
-   * @param value
-   *          the value of the member to add
-   * @return the object itself, to enable method chaining
-   */
-  public JsonObject set(String name, String value) {
-    set(name, Json.value(value));
-    return this;
-  }
-
-  /**
-   * Sets the value of the member with the specified name to the specified JSON value. If this object does not contain a
-   * member with this name, a new member is added at the end of the object. If this object contains multiple members
-   * with this name, only the last one is changed.
-   * <p>
-   * This method should <strong>only be used to modify existing objects</strong>. To fill a new object with members, the
-   * method <code>add(name, value)</code> should be preferred which is much faster (as it does not need to search for
-   * existing members).
-   * </p>
-   *
-   * @param name
-   *          the name of the member to add
-   * @param value
-   *          the value of the member to add, must not be <code>null</code>
-   * @return the object itself, to enable method chaining
-   */
-  public JsonObject set(String name, JsonValue value) {
-    Objects.requireNonNull(name, NAME_IS_NULL);
-    Objects.requireNonNull(value, VALUE_IS_NULL);
-    int index = indexOf(name);
-    if (index != -1) {
-      values.set(index, value);
-    } else {
-      table.add(name, names.size());
-      names.add(name);
-      values.add(value);
-    }
-    return this;
-  }
-
-  /**
-   * Removes a member with the specified name from this object. If this object contains multiple members with the given
-   * name, only the last one is removed. If this object does not contain a member with the specified name, the object is
-   * not modified.
-   *
-   * @param name
-   *          the name of the member to remove
-   * @return the object itself, to enable method chaining
-   */
-  public JsonObject remove(String name) {
-    Objects.requireNonNull(name, NAME_IS_NULL);
-    int index = indexOf(name);
-    if (index != -1) {
-      table.remove(index);
-      names.remove(index);
-      values.remove(index);
-    }
-    return this;
-  }
-
-  /**
-   * Checks if a specified member is present as a child of this object. This will not test if
-   * this object contains the literal <code>null</code>, {@link JsonValue#isNull()} should be used
-   * for this purpose.
-   *
-   * @param name
-   *          the name of the member to check for
-   * @return whether or not the member is present
-   */
-  public boolean contains(String name) {
-    return names.contains(name);
-  }
-
-  /**
-   * Copies all members of the specified object into this object. When the specified object contains
-   * members with names that also exist in this object, the existing values in this object will be
-   * replaced by the corresponding values in the specified object.
-   *
-   * @param object
-   *          the object to merge
-   * @return the object itself, to enable method chaining
-   */
-  public JsonObject merge(JsonObject object) {
-    Objects.requireNonNull(object, OBJECT_IS_NULL);
-    for (Member member : object) {
-      this.set(member.name, member.value);
-    }
-    return this;
-  }
-
-  /**
-   * Returns the value of the member with the specified name in this object. If this object contains multiple members
-   * with the given name, this method will return the last one.
-   *
-   * @param name
-   *          the name of the member whose value is to be returned
-   * @return the value of the last member with the specified name, or <code>null</code> if this object does not contain
-   *         a member with that name
-   */
-  public JsonValue get(String name) {
-    Objects.requireNonNull(name, NAME_IS_NULL);
-    int index = indexOf(name);
-    return index != -1 ? values.get(index) : null;
-  }
-
-  /**
-   * Returns the <code>int</code> value of the member with the specified name in this object. If this object does not
-   * contain a member with this name, the given default value is returned. If this object contains multiple members with
-   * the given name, the last one will be picked. If this member's value does not represent a JSON number or if it
-   * cannot be interpreted as Java <code>int</code>, an exception is thrown.
-   *
-   * @param name
-   *          the name of the member whose value is to be returned
-   * @param defaultValue
-   *          the value to be returned if the requested member is missing
-   * @return the value of the last member with the specified name, or the given default value if this object does not
-   *         contain a member with that name
-   */
-  public int getInt(String name, int defaultValue) {
-    JsonValue value = get(name);
-    return value != null ? value.asInt() : defaultValue;
-  }
-
-  /**
-   * Returns the <code>long</code> value of the member with the specified name in this object. If this object does not
-   * contain a member with this name, the given default value is returned. If this object contains multiple members with
-   * the given name, the last one will be picked. If this member's value does not represent a JSON number or if it
-   * cannot be interpreted as Java <code>long</code>, an exception is thrown.
-   *
-   * @param name
-   *          the name of the member whose value is to be returned
-   * @param defaultValue
-   *          the value to be returned if the requested member is missing
-   * @return the value of the last member with the specified name, or the given default value if this object does not
-   *         contain a member with that name
-   */
-  public long getLong(String name, long defaultValue) {
-    JsonValue value = get(name);
-    return value != null ? value.asLong() : defaultValue;
-  }
-
-  /**
-   * Returns the <code>float</code> value of the member with the specified name in this object. If this object does not
-   * contain a member with this name, the given default value is returned. If this object contains multiple members with
-   * the given name, the last one will be picked. If this member's value does not represent a JSON number or if it
-   * cannot be interpreted as Java <code>float</code>, an exception is thrown.
-   *
-   * @param name
-   *          the name of the member whose value is to be returned
-   * @param defaultValue
-   *          the value to be returned if the requested member is missing
-   * @return the value of the last member with the specified name, or the given default value if this object does not
-   *         contain a member with that name
-   */
-  public float getFloat(String name, float defaultValue) {
-    JsonValue value = get(name);
-    return value != null ? value.asFloat() : defaultValue;
-  }
-
-  /**
-   * Returns the <code>double</code> value of the member with the specified name in this object. If this object does not
-   * contain a member with this name, the given default value is returned. If this object contains multiple members with
-   * the given name, the last one will be picked. If this member's value does not represent a JSON number or if it
-   * cannot be interpreted as Java <code>double</code>, an exception is thrown.
-   *
-   * @param name
-   *          the name of the member whose value is to be returned
-   * @param defaultValue
-   *          the value to be returned if the requested member is missing
-   * @return the value of the last member with the specified name, or the given default value if this object does not
-   *         contain a member with that name
-   */
-  public double getDouble(String name, double defaultValue) {
-    JsonValue value = get(name);
-    return value != null ? value.asDouble() : defaultValue;
-  }
-
-  /**
-   * Returns the <code>boolean</code> value of the member with the specified name in this object. If this object does
-   * not contain a member with this name, the given default value is returned. If this object contains multiple members
-   * with the given name, the last one will be picked. If this member's value does not represent a JSON
-   * <code>true</code> or <code>false</code> value, an exception is thrown.
-   *
-   * @param name
-   *          the name of the member whose value is to be returned
-   * @param defaultValue
-   *          the value to be returned if the requested member is missing
-   * @return the value of the last member with the specified name, or the given default value if this object does not
-   *         contain a member with that name
-   */
-  public boolean getBoolean(String name, boolean defaultValue) {
-    JsonValue value = get(name);
-    return value != null ? value.asBoolean() : defaultValue;
-  }
-
-  /**
-   * Returns the <code>String</code> value of the member with the specified name in this object. If this object does not
-   * contain a member with this name, the given default value is returned. If this object contains multiple members with
-   * the given name, the last one is picked. If this member's value does not represent a JSON string, an exception is
-   * thrown.
-   *
-   * @param name
-   *          the name of the member whose value is to be returned
-   * @param defaultValue
-   *          the value to be returned if the requested member is missing
-   * @return the value of the last member with the specified name, or the given default value if this object does not
-   *         contain a member with that name
-   */
-  public String getString(String name, String defaultValue) {
-    JsonValue value = get(name);
-    return value != null ? value.asString() : defaultValue;
-  }
-
-  /**
-   * Returns the number of members (name/value pairs) in this object.
-   *
-   * @return the number of members in this object
-   */
-  public int size() {
-    return names.size();
-  }
-
-  /**
-   * Returns <code>true</code> if this object contains no members.
-   *
-   * @return <code>true</code> if this object contains no members
-   */
-  public boolean isEmpty() {
-    return names.isEmpty();
-  }
-
-  /**
-   * Returns a list of the names in this object in document order. The returned list is backed by this object and will
-   * reflect subsequent changes. It cannot be used to modify this object. Attempts to modify the returned list will
-   * result in an exception.
-   *
-   * @return a list of the names in this object
-   */
-  public List<String> names() {
-    return Collections.unmodifiableList(names);
-  }
-
-  /**
-   * Returns an iterator over the members of this object in document order. The returned iterator cannot be used to
-   * modify this object.
-   *
-   * @return an iterator over the members of this object
-   */
-  public Iterator<Member> iterator() {
-    final Iterator<String> namesIterator = names.iterator();
-    final Iterator<JsonValue> valuesIterator = values.iterator();
-    return new Iterator<JsonObject.Member>() {
-
-      @Override
-      public boolean hasNext() {
-        return namesIterator.hasNext();
-      }
-
-      @Override
-      public Member next() {
-        String name = namesIterator.next();
-        JsonValue value = valuesIterator.next();
-        return new Member(name, value);
-      }
-
-      @Override
-      public void remove() {
-        throw new UnsupportedOperationException();
-      }
-
-    };
-  }
-
-  @Override
-  void write(JsonWriter writer) throws IOException {
-    writer.writeObjectOpen();
-    Iterator<String> namesIterator = names.iterator();
-    Iterator<JsonValue> valuesIterator = values.iterator();
-    if (namesIterator.hasNext()) {
-      writer.writeMemberName(namesIterator.next());
-      writer.writeMemberSeparator();
-      valuesIterator.next().write(writer);
-      while (namesIterator.hasNext()) {
-        writer.writeObjectSeparator();
-        writer.writeMemberName(namesIterator.next());
-        writer.writeMemberSeparator();
-        valuesIterator.next().write(writer);
-      }
-    }
-    writer.writeObjectClose();
-  }
-
-  @Override
-  public boolean isObject() {
-    return true;
-  }
-
-  @Override
-  public JsonObject asObject() {
-    return this;
-  }
-
-  @Override
-  public int hashCode() {
-    int result = 1;
-    result = 31 * result + names.hashCode();
-    result = 31 * result + values.hashCode();
-    return result;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    JsonObject other = (JsonObject) obj;
-    return names.equals(other.names) && values.equals(other.values);
-  }
-
-  int indexOf(String name) {
-    int index = table.get(name);
-    if (index != -1 && name.equals(names.get(index))) {
-      return index;
-    }
-    return names.lastIndexOf(name);
-  }
-
-  private synchronized void readObject(ObjectInputStream inputStream) throws IOException, ClassNotFoundException {
-    inputStream.defaultReadObject();
-    table = new HashIndexTable();
-    updateHashIndex();
-  }
-
-  private void updateHashIndex() {
-    int size = names.size();
-    for (int i = 0; i < size; i++) {
-      table.add(names.get(i), i);
-    }
-  }
-
-  /**
-   * Represents a member of a JSON object, a pair of a name and a value.
-   */
-  public static class Member {
-
-    private final String name;
-    private final JsonValue value;
-
-    Member(String name, JsonValue value) {
-      this.name = name;
-      this.value = value;
+    /**
+     * Creates a new empty JsonObject.
+     */
+    public JsonObject() {
+        names = new ArrayList<>();
+        values = new ArrayList<>();
+        table = new HashIndexTable();
     }
 
     /**
-     * Returns the name of this member.
+     * Creates a new JsonObject, initialized with the contents of the specified JSON object.
      *
-     * @return the name of this member, never <code>null</code>
+     * @param object
+     *          the JSON object to get the initial contents from, must not be <code>null</code>
      */
-    public String getName() {
-      return name;
+    public JsonObject(JsonObject object) {
+        this(object, false);
     }
 
-    /**
-     * Returns the value of this member.
-     *
-     * @return the value of this member, never <code>null</code>
-     */
-    public JsonValue getValue() {
-      return value;
+    private JsonObject(JsonObject object, boolean unmodifiable) {
+        Objects.requireNonNull(object, OBJECT_IS_NULL);
+        if (unmodifiable) {
+            names = Collections.unmodifiableList(object.names);
+            values = Collections.unmodifiableList(object.values);
+        } else {
+            names = new ArrayList<>(object.names);
+            values = new ArrayList<>(object.values);
+        }
+        table = new HashIndexTable();
+        updateHashIndex();
+    }
+
+    public static JsonObject unmodifiableObject(JsonObject object) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public JsonObject add(String name, int value) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public JsonObject add(String name, long value) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public JsonObject add(String name, float value) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public JsonObject add(String name, double value) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public JsonObject add(String name, boolean value) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public JsonObject add(String name, String value) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public JsonObject add(String name, JsonValue value) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public JsonObject set(String name, int value) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public JsonObject set(String name, long value) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public JsonObject set(String name, float value) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public JsonObject set(String name, double value) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public JsonObject set(String name, boolean value) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public JsonObject set(String name, String value) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public JsonObject set(String name, JsonValue value) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public JsonObject remove(String name) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public boolean contains(String name) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public JsonObject merge(JsonObject object) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public JsonValue get(String name) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public int getInt(String name, int defaultValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public long getLong(String name, long defaultValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public float getFloat(String name, float defaultValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public double getDouble(String name, double defaultValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public boolean getBoolean(String name, boolean defaultValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public String getString(String name, String defaultValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public int size() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public boolean isEmpty() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public List<String> names() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public Iterator<Member> iterator() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    void write(JsonWriter writer) throws IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public boolean isObject() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public JsonObject asObject() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-      int result = 1;
-      result = 31 * result + name.hashCode();
-      result = 31 * result + value.hashCode();
-      return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    int indexOf(String name) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    private synchronized void readObject(ObjectInputStream inputStream) throws IOException, ClassNotFoundException {
+        inputStream.defaultReadObject();
+        table = new HashIndexTable();
+        updateHashIndex();
+    }
+
+    private void updateHashIndex() {
+        int size = names.size();
+        for (int i = 0; i < size; i++) {
+            table.add(names.get(i), i);
+        }
     }
 
     /**
-     * Indicates whether a given object is "equal to" this JsonObject. An object is considered equal
-     * if it is also a <code>JsonObject</code> and both objects contain the same members <em>in
-     * the same order</em>.
-     * <p>
-     * If two JsonObjects are equal, they will also produce the same JSON output.
-     * </p>
-     *
-     * @param object
-     *          the object to be compared with this JsonObject
-     * @return <tt>true</tt> if the specified object is equal to this JsonObject, <code>false</code>
-     *         otherwise
+     * Represents a member of a JSON object, a pair of a name and a value.
      */
-    @Override
-    public boolean equals(Object object) {
-      if (this == object) {
-        return true;
-      }
-      if (object == null) {
-        return false;
-      }
-      if (getClass() != object.getClass()) {
-        return false;
-      }
-      Member other = (Member)object;
-      return name.equals(other.name) && value.equals(other.value);
-    }
+    public static class Member {
 
-  }
+        private final String name;
 
-  static class HashIndexTable {
+        private final JsonValue value;
 
-    private final byte[] hashTable = new byte[32]; // must be a power of two
-
-    public HashIndexTable() {
-        // nothing to do here
-    }
-
-    public HashIndexTable(HashIndexTable original) {
-      System.arraycopy(original.hashTable, 0, hashTable, 0, hashTable.length);
-    }
-
-    void add(String name, int index) {
-      int slot = hashSlotFor(name);
-      if (index < 0xff) {
-        // increment by 1, 0 stands for empty
-        hashTable[slot] = (byte) (index + 1);
-      } else {
-        hashTable[slot] = 0;
-      }
-    }
-
-    void remove(int index) {
-      for (int i = 0; i < hashTable.length; i++) {
-        if (hashTable[i] == index + 1) {
-          hashTable[i] = 0;
-        } else if (hashTable[i] > index + 1) {
-          hashTable[i]--;
+        Member(String name, JsonValue value) {
+            this.name = name;
+            this.value = value;
         }
-      }
+
+        public String getName() {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
+
+        public JsonValue getValue() {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
+
+        @Override
+        public int hashCode() {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
     }
 
-    int get(Object name) {
-      int slot = hashSlotFor(name);
-      // subtract 1, 0 stands for empty
-      return (hashTable[slot] & 0xff) - 1;
+    static class HashIndexTable {
+
+        // must be a power of two
+        private final byte[] hashTable = new byte[32];
+
+        public HashIndexTable() {
+            // nothing to do here
+        }
+
+        public HashIndexTable(HashIndexTable original) {
+            System.arraycopy(original.hashTable, 0, hashTable, 0, hashTable.length);
+        }
+
+        void add(String name, int index) {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
+
+        void remove(int index) {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
+
+        int get(Object name) {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
+
+        private int hashSlotFor(Object element) {
+            return element.hashCode() & hashTable.length - 1;
+        }
     }
-
-    private int hashSlotFor(Object element) {
-      return element.hashCode() & hashTable.length - 1;
-    }
-
-  }
-
 }

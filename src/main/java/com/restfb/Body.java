@@ -30,52 +30,28 @@ import java.util.Optional;
  */
 public class Body {
 
-  private final String data;
+    private final String data;
 
-  private Body(Object data) {
-    this(data, new DefaultJsonMapper());
-  }
-
-  private Body(Object data, JsonMapper jsonMapper) {
-    if (data == null) {
-      throw new IllegalArgumentException(Body.class + " instances" + " must have a non-null data.");
+    private Body(Object data) {
+        this(data, new DefaultJsonMapper());
     }
-    this.data = Optional.ofNullable(jsonMapper)
-      .orElseThrow(() -> new IllegalArgumentException("Provided " + JsonMapper.class + " must not be null."))
-      .toJson(data, true);
-  }
 
-  /**
-   * returns the Body data as String
-   * 
-   * @return the body data
-   */
-  public String getData() {
-    return data;
-  }
+    private Body(Object data, JsonMapper jsonMapper) {
+        if (data == null) {
+            throw new IllegalArgumentException(Body.class + " instances" + " must have a non-null data.");
+        }
+        this.data = Optional.ofNullable(jsonMapper).orElseThrow(() -> new IllegalArgumentException("Provided " + JsonMapper.class + " must not be null.")).toJson(data, true);
+    }
 
-  /**
-   * build a new body object instance with the given data as immutable inner data
-   * 
-   * @param data
-   *          the data is internally converted into a String using the JsonMapper
-   * @return the Body instance
-   */
-  public static Body withData(Object data) {
-    return new Body(data);
-  }
+    public String getData() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  /**
-   * build a new body object instance with the given data as immutable inner data
-   *
-   * @param data
-   *          the data is internally converted into a String using the provided JsonMapper
-   * @param jsonMapper
-   *          the custom JsonMapper used for the Object to String conversion
-   * 
-   * @return the Body instance
-   */
-  public static Body withData(Object data, JsonMapper jsonMapper) {
-    return new Body(data, jsonMapper);
-  }
+    public static Body withData(Object data) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public static Body withData(Object data, JsonMapper jsonMapper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

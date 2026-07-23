@@ -22,7 +22,6 @@
 package com.restfb.webhook;
 
 import java.util.Date;
-
 import com.restfb.types.webhook.messaging.*;
 
 /**
@@ -31,62 +30,78 @@ import com.restfb.types.webhook.messaging.*;
  */
 public abstract class AbstractWebhookMessagingListener implements WebhookMessagingListener {
 
-  @Override
-  public void accountLinking(final AccountLinkingItem item, MessagingParticipant recipient, MessagingParticipant sender,
-      Date timestamp) {}
+    @Override
+    public void accountLinking(final AccountLinkingItem item, MessagingParticipant recipient, MessagingParticipant sender, Date timestamp) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void appRoles(final AppRoles appRoles, MessagingParticipant recipient, MessagingParticipant sender,
-      Date timestamp) {}
+    @Override
+    public void appRoles(final AppRoles appRoles, MessagingParticipant recipient, MessagingParticipant sender, Date timestamp) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void checkoutUpdate(final CheckoutUpdateItem checkoutUpdate, MessagingParticipant recipient,
-      MessagingParticipant sender, Date timestamp) {}
+    @Override
+    public void checkoutUpdate(final CheckoutUpdateItem checkoutUpdate, MessagingParticipant recipient, MessagingParticipant sender, Date timestamp) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void delivery(final DeliveryItem delivery, MessagingParticipant recipient, MessagingParticipant sender,
-      Date timestamp) {}
+    @Override
+    public void delivery(final DeliveryItem delivery, MessagingParticipant recipient, MessagingParticipant sender, Date timestamp) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void message(final MessageItem message, MessagingParticipant recipient, MessagingParticipant sender,
-      Date timestamp) {}
+    @Override
+    public void message(final MessageItem message, MessagingParticipant recipient, MessagingParticipant sender, Date timestamp) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void optin(final OptinItem optin, MessagingParticipant recipient, MessagingParticipant sender,
-      Date timestamp) {}
+    @Override
+    public void optin(final OptinItem optin, MessagingParticipant recipient, MessagingParticipant sender, Date timestamp) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void passThreadControl(final PassThreadControlItem passThreadControl, MessagingParticipant recipient,
-      MessagingParticipant sender, Date timestamp) {}
+    @Override
+    public void passThreadControl(final PassThreadControlItem passThreadControl, MessagingParticipant recipient, MessagingParticipant sender, Date timestamp) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void payment(final PaymentItem payment, MessagingParticipant recipient, MessagingParticipant sender,
-      Date timestamp) {}
+    @Override
+    public void payment(final PaymentItem payment, MessagingParticipant recipient, MessagingParticipant sender, Date timestamp) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void policyEnforcement(final PolicyEnforcementItem policyEnforcement, MessagingParticipant recipient,
-      MessagingParticipant sender, Date timestamp) {}
+    @Override
+    public void policyEnforcement(final PolicyEnforcementItem policyEnforcement, MessagingParticipant recipient, MessagingParticipant sender, Date timestamp) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void postback(final PostbackItem postback, MessagingParticipant recipient, MessagingParticipant sender,
-      Date timestamp) {}
+    @Override
+    public void postback(final PostbackItem postback, MessagingParticipant recipient, MessagingParticipant sender, Date timestamp) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void reaction(final MessageReaction reaction, MessagingParticipant recipient, MessagingParticipant sender,
-      Date timestamp) {}
+    @Override
+    public void reaction(final MessageReaction reaction, MessagingParticipant recipient, MessagingParticipant sender, Date timestamp) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void read(final ReadItem read, MessagingParticipant recipient, MessagingParticipant sender, Date timestamp) {}
+    @Override
+    public void read(final ReadItem read, MessagingParticipant recipient, MessagingParticipant sender, Date timestamp) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void referral(final ReferralItem referral, MessagingParticipant recipient, MessagingParticipant sender,
-      Date timestamp) {}
+    @Override
+    public void referral(final ReferralItem referral, MessagingParticipant recipient, MessagingParticipant sender, Date timestamp) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void requestThreadControl(final RequestThreadControlItem requestThreadControl, MessagingParticipant recipient,
-      MessagingParticipant sender, Date timestamp) {}
+    @Override
+    public void requestThreadControl(final RequestThreadControlItem requestThreadControl, MessagingParticipant recipient, MessagingParticipant sender, Date timestamp) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  @Override
-  public void takeThreadControl(final TakeThreadControlItem takeThreadControl, MessagingParticipant recipient,
-      MessagingParticipant sender, Date timestamp) {}
+    @Override
+    public void takeThreadControl(final TakeThreadControlItem takeThreadControl, MessagingParticipant recipient, MessagingParticipant sender, Date timestamp) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

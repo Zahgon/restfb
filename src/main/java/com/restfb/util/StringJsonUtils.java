@@ -26,75 +26,33 @@ package com.restfb.util;
  */
 public class StringJsonUtils {
 
-  private StringJsonUtils() {
-    throw new IllegalStateException("StringJsonUtils must not be instantiated");
-  }
+    private StringJsonUtils() {
+        throw new IllegalStateException("StringJsonUtils must not be instantiated");
+    }
 
-  public static final String EMPTY_OBJECT = "{}";
+    public static final String EMPTY_OBJECT = "{}";
 
-  /**
-   * Is the given JSON equivalent to the empty list (<code>[]</code>)?
-   *
-   * @param jsonString
-   *          The JSON to check.
-   * @return {@code true} if the JSON is equivalent to the empty list, {@code false} otherwise.
-   */
-  public static boolean isEmptyList(String jsonString) {
-    return "[]".equals(jsonString);
-  }
+    public static boolean isEmptyList(String jsonString) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  /**
-   * Checks if the given String start with a <code>[</code> character, so it may be a JsonArray
-   *
-   * @param jsonString
-   *          the JSON to check.
-   * @return {@code true} if the String may be a JSON Array
-   */
-  public static boolean isList(String jsonString) {
-    return jsonString != null && jsonString.startsWith("[");
-  }
+    public static boolean isList(String jsonString) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  /**
-   * Checks if the given String is equals to the String with the content {@code "null"}
-   * 
-   * @param jsonString
-   *          the JSON to check.
-   * @return {@code true} if the String is {@code "null"}
-   */
-  public static boolean isNull(String jsonString) {
-    return "null".equals(jsonString);
-  }
+    public static boolean isNull(String jsonString) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  /**
-   * Checks if the given String is equals to the String with the content {@code "false"}
-   * 
-   * @param jsonString
-   *          the JSON to check.
-   * @return {@code true} if the String is {@code "false"}
-   */
-  public static boolean isFalse(String jsonString) {
-    return "false".equals(jsonString);
-  }
+    public static boolean isFalse(String jsonString) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  /**
-   * Checks if the given String start with a <code>{</code> character, so it may be a JsonObject
-   *
-   * @param jsonString
-   *          the JSON to check.
-   * @return {@code true} if the String may be a JSON object
-   */
-  public static boolean isObject(String jsonString) {
-    return jsonString != null && jsonString.startsWith("{");
-  }
+    public static boolean isObject(String jsonString) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-  /**
-   * Is the given JSON equivalent to the empty object (<code>{}</code>)?
-   *
-   * @param jsonString
-   *          The JSON to check.
-   * @return {@code true} if the JSON is equivalent to the empty object, {@code false} otherwise.
-   */
-  public static boolean isEmptyObject(String jsonString) {
-    return EMPTY_OBJECT.equals(jsonString);
-  }
+    public static boolean isEmptyObject(String jsonString) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

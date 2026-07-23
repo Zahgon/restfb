@@ -27,13 +27,12 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
  * A collection of data-encoding utility methods.
- * 
+ *
  * @author Josef Gierbl
  * @author Mikael Grev
  * @author <a href="http://restfb.com">Mark Allen</a>
@@ -41,82 +40,32 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public final class EncodingUtils {
 
-  /**
-   * Prevents instantiation.
-   */
-  private EncodingUtils() {}
-
-  private static final char[] HEX_ARRAY = "0123456789abcdef".toCharArray();
-
-  /**
-   * Decodes a base64-encoded string, padding out if necessary.
-   * 
-   * @param base64
-   *          The base64-encoded string to decode.
-   * @return A decoded version of {@code base64}.
-   * @throws NullPointerException
-   *           If {@code base64} is {@code null}.
-   */
-  public static byte[] decodeBase64(String base64) {
-    return Base64.getDecoder().decode(Optional.ofNullable(base64).map(EncodingUtils::padBase64).orElseThrow(() -> new NullPointerException("Parameter 'base64' cannot be null.")));
-  }
-
-  private static String padBase64(String base64) {
-    String padding = "";
-    int remainder = base64.length() % 4;
-
-    if (remainder > 0) {
-      padding = IntStream.range(0, 4 - remainder).mapToObj(i -> "=").collect(Collectors.joining());
+    /**
+     * Prevents instantiation.
+     */
+    private EncodingUtils() {
     }
 
-    return base64 + padding;
-  }
+    private static final char[] HEX_ARRAY = "0123456789abcdef".toCharArray();
 
-  /**
-   * Encodes a hex {@code byte[]} from given {@code byte[]}.
-   * <p>
-   * This function is equivalent to Apache commons-codec binary {@code new Hex().encode(byte[])}
-   * 
-   * @param data
-   *          The data to encode as hex.
-   * @return Hex-encoded {@code byte[]}
-   * @throws NullPointerException
-   *           If {@code data} is {@code null}.
-   */
-  public static byte[] encodeHex(final byte[] data) {
-    Objects.requireNonNull(data, "Parameter 'data' cannot be null.");
-    char[] out = new char[data.length << 1];
-    for (int j = 0; j < data.length; j++) {
-      int v = data[j] & 0xFF;
-      out[j * 2] = HEX_ARRAY[v >>> 4];
-      out[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+    public static byte[] decodeBase64(String base64) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    return new String(out).getBytes(StandardCharsets.UTF_8);
-  }
 
-  /**
-   * Generates an appsecret_proof for facebook.
-   * <p>
-   * See <a href="https://developers.facebook.com/docs/graph-api/securing-requests">
-   *     https://developers.facebook.com/docs/graph-api/securing-requests</a> for more info
-   *
-   * @param appSecret
-   *          The facebook application secret
-   * @param accessToken
-   *          The facebook access token
-   * @return A Hex encoded SHA256 Hash as a String
-   */
-  public static String encodeAppSecretProof(String appSecret, String accessToken) {
-    try {
-      byte[] key = appSecret.getBytes(StandardCharsets.UTF_8);
-      SecretKeySpec signingKey = new SecretKeySpec(key, "HmacSHA256");
-      Mac mac = Mac.getInstance("HmacSHA256");
-      mac.init(signingKey);
-      byte[] raw = mac.doFinal(accessToken.getBytes());
-      byte[] hex = encodeHex(raw);
-      return new String(hex, StandardCharsets.UTF_8);
-    } catch (Exception e) {
-      throw new IllegalStateException("Creation of appsecret_proof has failed", e);
+    private static String padBase64(String base64) {
+        String padding = "";
+        int remainder = base64.length() % 4;
+        if (remainder > 0) {
+            padding = IntStream.range(0, 4 - remainder).mapToObj(i -> "=").collect(Collectors.joining());
+        }
+        return base64 + padding;
     }
-  }
+
+    public static byte[] encodeHex(final byte[] data) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public static String encodeAppSecretProof(String appSecret, String accessToken) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

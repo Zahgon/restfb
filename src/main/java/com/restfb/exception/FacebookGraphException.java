@@ -22,219 +22,141 @@
 package com.restfb.exception;
 
 import static java.lang.String.format;
-
 import java.util.Optional;
-
 import com.restfb.json.JsonObject;
 
 /**
- * Indicates that the Facebook Graph API endpoint returned JSON which indicates an error condition.
- * <p>
- * Example:<code>
-  {
-      "error": {
-        "type": "Exception",
-        "message": "...",
-        "code": 210,
-        "error_subcode": 123,
-	"error_user_title": "A title",
-        "error_user_msg": "A message"
-      }
-  } </code>
- * 
- * @author <a href="http://restfb.com">Mark Allen</a>
- * @since 1.5
+ *  Indicates that the Facebook Graph API endpoint returned JSON which indicates an error condition.
+ *  <p>
+ *  Example:<code>
+ *   {
+ *       "error": {
+ *         "type": "Exception",
+ *         "message": "...",
+ *         "code": 210,
+ *         "error_subcode": 123,
+ * 	"error_user_title": "A title",
+ *         "error_user_msg": "A message"
+ *       }
+ *   } </code>
+ *
+ *  @author <a href="http://restfb.com">Mark Allen</a>
+ *  @since 1.5
  */
 public class FacebookGraphException extends FacebookErrorMessageException {
-  private static final long serialVersionUID = 1L;
 
-  /**
-   * The Facebook Graph API error type.
-   */
-  private final String errorType;
+    private static final long serialVersionUID = 1L;
 
-  /**
-   * The Facebook API error message.
-   */
-  private final String errorMessage;
+    /**
+     * The Facebook Graph API error type.
+     */
+    private final String errorType;
 
-  /**
-   * The Facebook API error user title.
-   */
-  private final String errorUserTitle;
+    /**
+     * The Facebook API error message.
+     */
+    private final String errorMessage;
 
-  /**
-   * The Facebook API error user message.
-   */
-  private final String errorUserMessage;
+    /**
+     * The Facebook API error user title.
+     */
+    private final String errorUserTitle;
 
-  /**
-   * The Facebook API error code.
-   */
-  private final Integer errorCode;
+    /**
+     * The Facebook API error user message.
+     */
+    private final String errorUserMessage;
 
-  /**
-   * The Facebook API error subcode.
-   */
-  private final Integer errorSubcode;
+    /**
+     * The Facebook API error code.
+     */
+    private final Integer errorCode;
 
-  /**
-   * The HTTP status code returned by the server.
-   */
-  private final Integer httpStatusCode;
+    /**
+     * The Facebook API error subcode.
+     */
+    private final Integer errorSubcode;
 
-  private final Boolean isTransient;
+    /**
+     * The HTTP status code returned by the server.
+     */
+    private final Integer httpStatusCode;
 
-  /**
-   * Creates an exception with the given error type and message.
-   * 
-   * @param errorType
-   *          Value of the Facebook response attribute {@code error.type}.
-   * @param errorMessage
-   *          Value of the Facebook response attribute {@code error.message}.
-   * @param errorCode
-   *          Value of the Facebook response attribute {@code error.code}.
-   * @param errorSubcode
-   *          Value of the Facebook response attribute {@code error.error_subcode}.
-   * @param httpStatusCode
-   *          The HTTP status code returned by the server, e.g. 500.
-   * @param errorUserTitle
-   *          Value of the Facebook response attribute {@code error.error_user_title}.
-   * @param errorUserMessage
-   *          Value of the Facebook response attribute {@code error.error_user_msg}.
-   * @param isTransient
-   * 
-   */
-  public FacebookGraphException(String errorType, String errorMessage, Integer errorCode, Integer errorSubcode,
-      Integer httpStatusCode, String errorUserTitle, String errorUserMessage, Boolean isTransient,
-      JsonObject rawError) {
-    super(format("Received Facebook error response of type %s: %s (code %s, subcode %s) '%s - %s'", errorType,
-      errorMessage, errorCode, errorSubcode, errorUserTitle, errorUserMessage));
-    this.errorType = errorType;
-    this.errorMessage = errorMessage;
-    this.errorCode = errorCode;
-    this.errorSubcode = errorSubcode;
-    this.httpStatusCode = httpStatusCode;
-    this.errorUserTitle = errorUserTitle;
-    this.errorUserMessage = errorUserMessage;
-    this.isTransient = isTransient;
-    setRawErrorJson(rawError);
-  }
+    private final Boolean isTransient;
 
-  /**
-   * Gets the Facebook Graph API error type.
-   * 
-   * @return The Facebook Graph API error type.
-   */
-  public String getErrorType() {
-    return errorType;
-  }
-
-  /**
-   * Gets the Facebook Graph API error message.
-   * 
-   * @return The Facebook Graph API error message.
-   */
-  public String getErrorMessage() {
-    return errorMessage;
-  }
-
-  /**
-   * Gets the Facebook API error code.
-   * 
-   * @return The Facebook API error code.
-   */
-  public Integer getErrorCode() {
-    return errorCode;
-  }
-
-  /**
-   * Gets the Facebook API error subcode.
-   * 
-   * @return The Facebook API error subcode.
-   */
-  public Integer getErrorSubcode() {
-    return errorSubcode;
-  }
-
-  /**
-   * Gets the HTTP status code returned by the server.
-   * 
-   * @return The HTTP status code returned by the server.
-   * @since 1.6.10
-   */
-  public Integer getHttpStatusCode() {
-    return httpStatusCode;
-  }
-
-  /**
-   * Gets the Facebook API error user title.
-   * 
-   * @return the Facebook API error user title
-   * @since 1.7.1
-   */
-  public String getErrorUserTitle() {
-    return errorUserTitle;
-  }
-
-  /**
-   * Gets the Facebook API error user message.
-   * 
-   * @return the Facebook API error user message
-   * @since 1.7.1
-   */
-  public String getErrorUserMessage() {
-    return errorUserMessage;
-  }
-
-  public Boolean getIsTransient() {
-    return isTransient;
-  }
-
-  /**
-   * Gets the Facebook API error {@code fbtrace_id}.
-   *
-   * Internal support identifier. When reporting a bug related to a Graph API call, include the fbtrace_id to help us
-   * find log data for debugging.
-   *
-   * @return the Facebook API error {@code fbtrace_id}
-   */
-  public String getFbtraceId() {
-    if (getRawErrorJson() != null && getRawErrorJson().get("error").isObject()) {
-      JsonObject errorJson = getRawErrorJson().get("error").asObject();
-      return errorJson.getString("fbtrace_id", "");
+    /**
+     * Creates an exception with the given error type and message.
+     *
+     * @param errorType
+     *          Value of the Facebook response attribute {@code error.type}.
+     * @param errorMessage
+     *          Value of the Facebook response attribute {@code error.message}.
+     * @param errorCode
+     *          Value of the Facebook response attribute {@code error.code}.
+     * @param errorSubcode
+     *          Value of the Facebook response attribute {@code error.error_subcode}.
+     * @param httpStatusCode
+     *          The HTTP status code returned by the server, e.g. 500.
+     * @param errorUserTitle
+     *          Value of the Facebook response attribute {@code error.error_user_title}.
+     * @param errorUserMessage
+     *          Value of the Facebook response attribute {@code error.error_user_msg}.
+     * @param isTransient
+     */
+    public FacebookGraphException(String errorType, String errorMessage, Integer errorCode, Integer errorSubcode, Integer httpStatusCode, String errorUserTitle, String errorUserMessage, Boolean isTransient, JsonObject rawError) {
+        super(format("Received Facebook error response of type %s: %s (code %s, subcode %s) '%s - %s'", errorType, errorMessage, errorCode, errorSubcode, errorUserTitle, errorUserMessage));
+        this.errorType = errorType;
+        this.errorMessage = errorMessage;
+        this.errorCode = errorCode;
+        this.errorSubcode = errorSubcode;
+        this.httpStatusCode = httpStatusCode;
+        this.errorUserTitle = errorUserTitle;
+        this.errorUserMessage = errorUserMessage;
+        this.isTransient = isTransient;
+        setRawErrorJson(rawError);
     }
 
-    return "";
-  }
-
-  /**
-   * returns the error data as defined <a href="https://developers.facebook.com/docs/whatsapp/cloud-api/support/error-codes/">here</a> as JsonObject.
-   * We use no special object to be future proof and allow other error JSONs to use this.
-   * @return Optional<JsonObject> with the JsonObject
-   */
-  public Optional<JsonObject> getErrorData() {
-    if (getRawErrorJson() != null && getRawErrorJson().get("error").isObject()) {
-      JsonObject errorJson = getRawErrorJson().get("error").asObject();
-      if (errorJson.contains("error_data")) {
-        return Optional.of(errorJson.get("error_data").asObject());
-      }
+    public String getErrorType() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    return Optional.empty();
-  }
-
-  /**
-   * special method to get the String result to the given field of the error_data field
-   * @param field field you like to fetch
-   * @return String with the result or empty String if not available
-   */
-  public String getErrorData(String field) {
-    Optional<JsonObject> errorDataOpt = getErrorData();
-    if (errorDataOpt.isPresent()) {
-      return errorDataOpt.get().getString(field, "");
+    public String getErrorMessage() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    return "";
-  }
+    public Integer getErrorCode() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public Integer getErrorSubcode() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public Integer getHttpStatusCode() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public String getErrorUserTitle() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public String getErrorUserMessage() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public Boolean getIsTransient() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public String getFbtraceId() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public Optional<JsonObject> getErrorData() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public String getErrorData(String field) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

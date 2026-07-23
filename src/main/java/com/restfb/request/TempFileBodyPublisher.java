@@ -35,32 +35,27 @@ import java.nio.file.StandardOpenOption;
  */
 public class TempFileBodyPublisher implements Closeable {
 
-  private final Path tempFile;
-  private final OutputStream outputStream;
-  private boolean closed;
+    private final Path tempFile;
 
-  public TempFileBodyPublisher() throws IOException {
-    tempFile = Files.createTempFile("restfb-request", ".bin");
-    outputStream = Files.newOutputStream(tempFile, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE);
-  }
+    private final OutputStream outputStream;
 
-  public OutputStream outputStream() {
-    return outputStream;
-  }
+    private boolean closed;
 
-  public BodyPublisher build() throws IOException {
-    outputStream.flush();
-    outputStream.close();
-    closed = true;
-    return BodyPublishers.ofFile(tempFile);
-  }
-
-  @Override
-  public void close() throws IOException {
-    if (!closed) {
-      outputStream.close();
-      closed = true;
+    public TempFileBodyPublisher() throws IOException {
+        tempFile = Files.createTempFile("restfb-request", ".bin");
+        outputStream = Files.newOutputStream(tempFile, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE);
     }
-    Files.deleteIfExists(tempFile);
-  }
+
+    public OutputStream outputStream() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public BodyPublisher build() throws IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public void close() throws IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

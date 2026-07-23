@@ -22,7 +22,6 @@
 package com.restfb;
 
 import static java.net.HttpURLConnection.HTTP_NOT_MODIFIED;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.http.HttpRequest;
@@ -31,7 +30,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-
 import com.restfb.util.SoftHashMap;
 
 /**
@@ -63,100 +61,53 @@ import com.restfb.util.SoftHashMap;
  */
 public class ETagWebRequestor extends DefaultWebRequestor {
 
-  private static Supplier<Map<String, ETagResponse>> mapBuilder = SoftHashMap::new;
+    private static Supplier<Map<String, ETagResponse>> mapBuilder = SoftHashMap::new;
 
-  final Map<String, ETagResponse> etagCache = Collections.synchronizedMap(mapBuilder.get());
-  private final ThreadLocal<ETagResponse> currentETagRespThreadLocal = new ThreadLocal<>();
-  private volatile boolean useCache = true;
+    final Map<String, ETagResponse> etagCache = Collections.synchronizedMap(mapBuilder.get());
 
-  @Override
-  protected void customizeRequest(HttpRequest.Builder builder, Request request, HttpMethod httpMethod) {
-    if (isUseCache() && HttpMethod.GET.equals(httpMethod)) {
-      ETagResponse resp = etagCache.get(request.getFullUrl());
-      if (resp != null) {
-        currentETagRespThreadLocal.set(resp);
-        builder.header("If-None-Match", resp.getEtag());
-      }
+    private final ThreadLocal<ETagResponse> currentETagRespThreadLocal = new ThreadLocal<>();
+
+    private volatile boolean useCache = true;
+
+    @Override
+    protected void customizeRequest(HttpRequest.Builder builder, Request request, HttpMethod httpMethod) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-  }
 
-  @Override
-  protected Response createResponse(HttpResponse<InputStream> httpResponse, Map<String, List<String>> headers)
-      throws IOException {
-    try {
-      if (HttpMethod.GET.name().equals(httpResponse.request().method())) {
-        if (httpResponse.statusCode() == HTTP_NOT_MODIFIED && currentETagRespThreadLocal.get() != null) {
-          closeQuietly(httpResponse.body());
-          ETagResponse etagResp = currentETagRespThreadLocal.get();
-          return new Response(httpResponse.statusCode(), etagResp.getBody(), null, headers);
-        } else {
-          Response resp = super.createResponse(httpResponse, headers);
-          String fullUrl = httpResponse.request().uri().toString();
-          httpResponse.headers().firstValue("ETag").ifPresent(etag ->
-            etagCache.put(fullUrl, new ETagResponse(etag, resp.getBody())));
-          return resp;
+    @Override
+    protected Response createResponse(HttpResponse<InputStream> httpResponse, Map<String, List<String>> headers) throws IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public boolean isUseCache() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public void setUseCache(boolean useCache) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public static void setMapSupplier(Supplier<Map<String, ETagResponse>> mapSupplier) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public static class ETagResponse {
+
+        public ETagResponse(String etag, String body) {
+            this.etag = etag;
+            this.body = body;
         }
-      } else {
-        return super.createResponse(httpResponse, headers);
-      }
-    } finally {
-      currentETagRespThreadLocal.remove();
+
+        private final String etag;
+
+        private final String body;
+
+        public String getEtag() {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
+
+        public String getBody() {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
     }
-  }
-
-  /**
-   * return if cache is used.
-   * 
-   * @return <code>true</code> if ETag-Cache is used, <code>false</code> if not
-   */
-  public boolean isUseCache() {
-    return this.useCache;
-  }
-
-  /**
-   * activate/deactivate the ETag-Cache for the next request.
-   *
-   * <p>
-   * when deactivated, the ETag-Cache is *not* deleted
-   * </p>
-   *
-   * @param useCache
-   *          flag to dis/enable the cache during runtime
-   */
-  public void setUseCache(boolean useCache) {
-    this.useCache = useCache;
-  }
-
-  /**
-   * Override the mapSupplier, it needs to be some implementation of the {@link Map} interface.
-   * <p>
-   * You have to set this before the {@link ETagWebRequestor} object is created. While building it, the mapSupplier is
-   * used
-   * 
-   * @param mapSupplier
-   *          the supplier, that returns a new Map,
-   */
-  public static void setMapSupplier(Supplier<Map<String, ETagResponse>> mapSupplier) {
-    ETagWebRequestor.mapBuilder = mapSupplier;
-  }
-
-  public static class ETagResponse {
-
-    public ETagResponse(String etag, String body) {
-      this.etag = etag;
-      this.body = body;
-    }
-
-    private final String etag;
-    private final String body;
-
-    public String getEtag() {
-      return etag;
-    }
-
-    public String getBody() {
-      return body;
-    }
-  }
-
 }

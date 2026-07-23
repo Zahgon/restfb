@@ -31,85 +31,35 @@ package com.restfb.logging;
  */
 final class JulMessage {
 
-  private static final String PLACEHOLDER = "{}";
+    private static final String PLACEHOLDER = "{}";
 
-  private static final char ESCAPE_SIGN = '\\';
+    private static final char ESCAPE_SIGN = '\\';
 
-  private JulMessage() {
-    throw new IllegalStateException("JulMessage is a utility class");
-  }
-
-  /**
-   * convert the message and the arguments and convert everything in a {@code MessageTuple}. The {@code MessageTuple}
-   * contains the message and the optional throwable.
-   * 
-   * @param messagePattern
-   *          the message with optional placeholders
-   * @param args
-   *          the arguments for the placeholders and the optional Throwable
-   * @return MessageTuple that contains the Throwable and the formatted message
-   */
-  static MessageTuple convertMessageString(String messagePattern, Object... args) {
-    Throwable throwable = null;
-
-    if (args.length > 0 && args[args.length - 1] instanceof Throwable) {
-      throwable = (Throwable) args[args.length - 1];
+    private JulMessage() {
+        throw new IllegalStateException("JulMessage is a utility class");
     }
 
-    if (!messagePattern.contains(PLACEHOLDER)) {
-      return new MessageTuple(messagePattern, throwable);
+    static MessageTuple convertMessageString(String messagePattern, Object... args) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    StringBuilder sb = new StringBuilder();
+    static class MessageTuple {
 
-    int placeholderCount = 0;
-    int k = 0;
-    while (messagePattern.indexOf(PLACEHOLDER, k) != -1) {
-      int l = messagePattern.indexOf(PLACEHOLDER, k);
-      if (l == 0 || messagePattern.charAt(l - 1) != ESCAPE_SIGN) {
-        sb.append(messagePattern, k, l);
-        sb.append("%s");
-        k = l + 2;
-        placeholderCount++;
-      } else {
-        sb.append(messagePattern, k, l + 3);
-        k = l + 3;
-      }
+        private final String message;
+
+        private final Throwable throwable;
+
+        MessageTuple(String message, Throwable throwable) {
+            this.message = message;
+            this.throwable = throwable;
+        }
+
+        public String getMessage() {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
+
+        public Throwable getThrowable() {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
     }
-
-    if (k < messagePattern.length()) {
-      sb.append(messagePattern.substring(k));
-    }
-
-    int argsLength = (throwable != null) ? args.length - 1 : args.length;
-
-    if (argsLength != placeholderCount) {
-      throw new IllegalArgumentException("Placeholder count don't matches argument count (placeholders: "
-          + placeholderCount + ", arguments: " + argsLength + ")");
-    }
-
-    Object[] trimmed = new Object[argsLength];
-    System.arraycopy(args, 0, trimmed, 0, argsLength);
-
-    return new MessageTuple(String.format(sb.toString(), trimmed), throwable);
-  }
-
-  static class MessageTuple {
-    private final String message;
-
-    private final Throwable throwable;
-
-    MessageTuple(String message, Throwable throwable) {
-      this.message = message;
-      this.throwable = throwable;
-    }
-
-    public String getMessage() {
-      return message;
-    }
-
-    public Throwable getThrowable() {
-      return throwable;
-    }
-  }
 }

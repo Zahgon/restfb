@@ -23,11 +23,9 @@ package com.restfb;
 
 import com.restfb.exception.FacebookResponseContentException;
 import com.restfb.scope.ScopeBuilder;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import static com.restfb.util.ObjectUtil.verifyParameterPresence;
 
 /**
@@ -42,109 +40,70 @@ import static com.restfb.util.ObjectUtil.verifyParameterPresence;
  */
 public class DefaultInstagramLoginClient extends DefaultFacebookClient {
 
-  public DefaultInstagramLoginClient(Version version) {
-    super(version);
-  }
-
-  public DefaultInstagramLoginClient(String accessToken, Version apiVersion) {
-    super(accessToken, apiVersion);
-  }
-
-  public DefaultInstagramLoginClient(String accessToken, String appSecret, Version apiVersion) {
-    super(accessToken, appSecret, apiVersion);
-  }
-
-  public DefaultInstagramLoginClient(String accessToken, WebRequestor webRequestor, JsonMapper jsonMapper,
-      Version apiVersion) {
-    super(accessToken, webRequestor, jsonMapper, apiVersion);
-  }
-
-  public DefaultInstagramLoginClient(String accessToken, String appSecret, WebRequestor webRequestor,
-      JsonMapper jsonMapper, Version apiVersion) {
-    super(accessToken, appSecret, webRequestor, jsonMapper, apiVersion);
-  }
-
-  @Override
-  public String getLoginDialogUrl(String appId, String redirectUri, ScopeBuilder scope, String state,
-      Parameter... parameters) {
-    List<Parameter> parameterList = new ArrayList<>();
-    Collections.addAll(parameterList, parameters);
-    parameterList.add(Parameter.with("response_type", CODE));
-    return getGenericLoginDialogUrl(appId, redirectUri, scope,
-      () -> getFacebookEndpointUrls().getInstagramOAuthEndpoint() + "/oauth/authorize", state, parameterList);
-  }
-
-  @Override
-  public String getLoginDialogUrl(String appId, String redirectUri, ScopeBuilder scope, Parameter... parameters) {
-    return this.getLoginDialogUrl(appId, redirectUri, scope, null, parameters);
-  }
-
-  @Override
-  public AccessToken obtainUserAccessToken(String clientId, String clientSecret, String redirectUri, String code) {
-    verifyParameterPresence(CLIENT_ID, clientId);
-    verifyParameterPresence(PARAM_CLIENT_SECRET, clientSecret);
-    verifyParameterPresence(CODE, code);
-    verifyParameterPresence(REDIRECT_URI, redirectUri);
-
-    return publish(PATH_OAUTH_ACCESS_TOKEN, AccessToken.class, //
-      Parameter.with(CLIENT_ID, clientId), //
-      Parameter.with(PARAM_CLIENT_SECRET, clientSecret), //
-      Parameter.with(CODE, code), //
-      Parameter.with(GRANT_TYPE, "authorization_code"), //
-      Parameter.with(REDIRECT_URI, redirectUri));
-  }
-
-  @Override
-  public AccessToken obtainExtendedAccessToken(String appId, String appSecret, String accessToken) {
-    verifyParameterPresence(APP_SECRET, appSecret);
-    verifyParameterPresence("accessToken", accessToken);
-
-    String response = makeRequest("access_token", false, false, null, //
-            Parameter.with(PARAM_CLIENT_SECRET, appSecret), //
-            Parameter.with(GRANT_TYPE, "ig_exchange_token"), //
-            Parameter.withFields("access_token,expires_in,token_type"));
-    try {
-      return getAccessTokenFromResponse(response);
-    } catch (Exception t) {
-      throw new FacebookResponseContentException(CANNOT_EXTRACT_ACCESS_TOKEN_MESSAGE, t);
+    public DefaultInstagramLoginClient(Version version) {
+        super(version);
     }
-  }
 
-  @Override
-  public FacebookClient createClientWithAccessToken(String accessToken) {
-    return new DefaultInstagramLoginClient(accessToken, this.appSecret, getWebRequestor(), getJsonMapper(),
-      this.apiVersion);
-  }
-
-  @Override
-  public AccessToken obtainRefreshedExtendedAccessToken() {
-    String response = makeRequest("refresh_access_token", false, false, null, //
-      Parameter.with(GRANT_TYPE, "ig_refresh_token"), //
-      Parameter.withFields("access_token,expires_in,token_type"));
-    try {
-      return getAccessTokenFromResponse(response);
-    } catch (Exception t) {
-      throw new FacebookResponseContentException(CANNOT_EXTRACT_ACCESS_TOKEN_MESSAGE, t);
+    public DefaultInstagramLoginClient(String accessToken, Version apiVersion) {
+        super(accessToken, apiVersion);
     }
-  }
 
-  @Override
-  protected String createBaseUrlForEndpoint(String apiCall, boolean hasAttachment, boolean hasReel) {
-    if (apiCall.startsWith(PATH_OAUTH_ACCESS_TOKEN)) {
-      return getInstagramApiEndpointUrl();
+    public DefaultInstagramLoginClient(String accessToken, String appSecret, Version apiVersion) {
+        super(accessToken, appSecret, apiVersion);
     }
-    return getInstagramGraphEndpointUrl();
-  }
 
-  private String getInstagramApiEndpointUrl() {
-    return getFacebookEndpointUrls().getInstagramApiEndpoint();
-  }
-
-  private String getInstagramGraphEndpointUrl() {
-    if (apiVersion.isUrlElementRequired()) {
-      return getFacebookEndpointUrls().getInstagramEndpoint() + '/' + apiVersion.getUrlElement();
-    } else {
-      return getFacebookEndpointUrls().getInstagramEndpoint();
+    public DefaultInstagramLoginClient(String accessToken, WebRequestor webRequestor, JsonMapper jsonMapper, Version apiVersion) {
+        super(accessToken, webRequestor, jsonMapper, apiVersion);
     }
-  }
+
+    public DefaultInstagramLoginClient(String accessToken, String appSecret, WebRequestor webRequestor, JsonMapper jsonMapper, Version apiVersion) {
+        super(accessToken, appSecret, webRequestor, jsonMapper, apiVersion);
+    }
+
+    @Override
+    public String getLoginDialogUrl(String appId, String redirectUri, ScopeBuilder scope, String state, Parameter... parameters) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public String getLoginDialogUrl(String appId, String redirectUri, ScopeBuilder scope, Parameter... parameters) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public AccessToken obtainUserAccessToken(String clientId, String clientSecret, String redirectUri, String code) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public AccessToken obtainExtendedAccessToken(String appId, String appSecret, String accessToken) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public FacebookClient createClientWithAccessToken(String accessToken) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public AccessToken obtainRefreshedExtendedAccessToken() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    protected String createBaseUrlForEndpoint(String apiCall, boolean hasAttachment, boolean hasReel) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    private String getInstagramApiEndpointUrl() {
+        return getFacebookEndpointUrls().getInstagramApiEndpoint();
+    }
+
+    private String getInstagramGraphEndpointUrl() {
+        if (apiVersion.isUrlElementRequired()) {
+            return getFacebookEndpointUrls().getInstagramEndpoint() + '/' + apiVersion.getUrlElement();
+        } else {
+            return getFacebookEndpointUrls().getInstagramEndpoint();
+        }
+    }
 }

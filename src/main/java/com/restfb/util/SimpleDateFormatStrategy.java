@@ -27,19 +27,16 @@ import java.util.TimeZone;
 
 /**
  * a simple DateFormat strategy.
- * 
+ *
  * every call returns a new SimpleDateFormat object, this will be rather slow and especially in a high-performance or
  * low resource environment you should use {@link CachedDateFormatStrategy}
- * 
+ *
  * @since 1.7.0
  */
 public class SimpleDateFormatStrategy implements DateFormatStrategy {
 
-  @Override
-  public DateFormat formatFor(String format) {
-    SimpleDateFormat formatter = new SimpleDateFormat(format);
-    formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-    return formatter;
-  }
-
+    @Override
+    public DateFormat formatFor(String format) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }
